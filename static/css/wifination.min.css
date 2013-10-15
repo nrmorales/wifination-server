@@ -1,0 +1,17 @@
+@font-face {
+    font-family: Allerta;
+    font-style: normal;
+    font-weight: 400;
+    src: local('Allerta Regular'),local('Allerta-Regular'),url("/static/allerta.woff") format('woff');
+}
+body {
+    background-image: url("/static/img/ph.png");
+    background-size: 34%;
+    background-repeat: no-repeat;
+    background-color: #000;
+    background-position: 48% -45%;
+}
+h3.allerta {
+    font-family: Allerta,sans-serif;
+    font-size: 26px;
+}

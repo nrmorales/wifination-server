@@ -16,7 +16,7 @@ def serveImage(filename):
 
 @app.route('/test2')
 def test2():
-   return render("landingpage.html",page_vars={})
+   return render("landingpage.html",page_vars={},loginpath="/authenticate")
 
 @app.route('/test')
 def test():
@@ -39,6 +39,8 @@ def landingpage():
       try:
          for key in request.args.keys():
             data[key] = request.args[key]
+         for key in request.form:
+            data[key] = request.form[key]
       except Exception, e:
          print e
          raise e
@@ -49,9 +51,14 @@ def landingpage():
 
    if not request.is_secure:
       if app.debug: print "Connection is NOT secure. Please connect thru HTTPS"
+      #return render("simple_with_xml.html", mesg="Please connect thru HTTPS", headline="Connection is NOT secure")
       pass #show html for insecure connections
-   
-   if "res" in request_data and request_data['res'] == "wispr" and request_data['username']:
+   first_cond = "res" in request_data and request_data['res'] == "wispr" and request_data['username']
+   second_cond = "loginattempt" in request_data and request_data["loginattempt"] == "wifination"
+
+   if app.debug: print "First Condition:",first_cond,"Second Condition:",second_cond
+   if first_cond or second_cond:
+      
       hexchal = request_data["challenge"].decode("hex")
 
       if uamsecret:
@@ -60,31 +67,40 @@ def landingpage():
          toHash = hexchal
       
       md5hash = hashlib.md5(toHash)
-      newchal = md5hash.digest()
+      newchal = md5hash.hexdigest()
 
-      lurldet =  {'uamip':request_data[uamip],
+      #url details dictionary
+      lurldet =  {'uamip':request_data['uamip'],
                   'uamport':request_data['uamport'],
-                  'username':urllib.encode(request_data['username'])}
+                  'username':urllib.quote_plus(request_data['username'])}
 
-      logonUrl = "http://%(uamip)s:%(uamport)s/logon?username=%(username)s&"%(lurldet)
+      logonUrl = "http://%(uamip)s:%(uamport)s/logon?username=%(username)s"%(lurldet)
 
-      if request_data['wisprversion'] and request_data['wispreapmsg']:
-         logonUrl += "WISPrEAPMsg="+urllib.urlencode(request_data['wispreapmsg'])
-         logonUrl += "&WISPrVersion="+urllib.urlencode(request_data['wisprversion'])
+      if all(key in request_data for key in ('wisprversion','wispreapmsg')) and request_data['wisprversion'] \
+         and request_data['wispreapmsg']:
+         logonUrl += "&WISPrEAPMsg="+urllib.quote_plus(request_data['wispreapmsg'])
+         logonUrl += "&WISPrVersion="+urllib.quote_plus(request_data['wisprversion'])
+
+      #did not add the ntresponse thingy, only used for MS-CHAP
+      #did not add plain text thingy, only used for PAP
 
       # Generate a CHAP response with the password and the
       # challenge (which may have been uamsecret encoded)
       else:
-         response = hashlib.md5("\0"+request_data['password']+newchal)
-         logonUrl += "&response="+urllib.urlencode(response)
+         print "generating chap response"
+         print "password",request_data['password']
+         print "newchal",newchal
 
-      loginUrl += "&userurl="+urllib.urlencode(request_data['userurl']);
-      return redirect(loginUrl)
+         response = hashlib.md5(request_data['password']+newchal).hexdigest()
+         logonUrl += "&response="+urllib.quote_plus(response)
 
-   #anothe part of the script
+      logonUrl += "&userurl="+urllib.quote_plus(request_data['userurl']);
+      print "LoginURL:",logonUrl
+      return redirect(logonUrl)
+
+   #another part of the script
    result = 0
-   if "res" not in request_data:
-      pass
+   if "res" not in request_data: pass
    elif request_data['res'] == "success":
       result = 1
    elif request_data['res'] == "failed":
@@ -114,11 +130,11 @@ def landingpage():
 
    if result == 2:
       if app.debug: print "WiFi Nation Login Failed!", request_data['reply']
-      return render("landingpage.html",page_vars = {'error_msg':"WiFi Nation Login Failed"})
+      return render("landingpage.html",page_vars = {'error_msg':"WiFi Nation Login Failed"},loginpath="/authenticate")
 
    if result == 5:
       if app.debug: print "Not yet logged in"
-      return render("landingpage.html",page_vars=request_data)
+      return render("landingpage.html",page_vars=request_data,loginpath="/authenticate")
 
    if result == 1:
       if app.debug: print "Logged in to WiFi Nation Success!"
@@ -147,3 +163,5 @@ def error(headline, mesg):
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
+
+#http://localhost:5000/authenticate?res=notyet&uamip=192.168.182.1&uamport=3990&challenge=1f3590180f5ef93864dcfc0f5b17a15c&userurl=http%3a%2f%2fgeoip.ubuntu.com%2flookup&nasid=nas01&mac=E0-B9-A5-C6-59-1F

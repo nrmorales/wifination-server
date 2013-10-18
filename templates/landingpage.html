@@ -10,12 +10,13 @@
       <div class="well">
          <h3 class="allerta">Access WiFi Nation</h3>
          
-         <form role="form" id="login_form" method="post" action="">
+         <form role="form" id="login_form" method="post" action="{{ login_formpath }}">
             <input type="hidden" name="challenge" value="{{ page_vars['challenge'] }}">
             <input type="hidden" name="uamip" value="{{ page_vars['uamip'] }}">
             <input type="hidden" name="uamport" value="{{ page_vars['uamport'] }}">
             <input type="hidden" name="userurl" value="{{ page_vars['userurl'] }}">
-
+            <input type="hidden" name="loginattempt" value="wifination">
+            
             <div id="input_" class="hide">
                <div class="form-group" id="frmgrp-username">
                   <label class="control-label" for="login_username">Username</label>

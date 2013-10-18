@@ -2,10 +2,10 @@
     font-family: Allerta;
     font-style: normal;
     font-weight: 400;
-    src: local('Allerta Regular'),local('Allerta-Regular'),url("static/allerta.woff") format('woff');
+    src: local('Allerta Regular'),local('Allerta-Regular'),url("../allerta.woff") format('woff');
 }
 body {
-    background-image: url("static/img/ph.png");
+    background-image: url("../img/ph.png");
     background-size: 34%;
     background-repeat: no-repeat;
     background-color: #000;

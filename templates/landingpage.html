@@ -16,28 +16,13 @@
             <input type="hidden" name="uamport" value="{{ page_vars['uamport'] }}">
             <input type="hidden" name="userurl" value="{{ page_vars['userurl'] }}">
             <input type="hidden" name="loginattempt" value="wifination">
-            
-            <div id="input_" class="hide">
-               <div class="form-group" id="frmgrp-username">
-                  <label class="control-label" for="login_username">Username</label>
-                  <input type="text" class="form-control" id="login_username" placeholder="WiFi Nation Username" name="username">
-               </div>
-               <div class="form-group" id="frmgrp-password">
-                  <label class="control-label" for="login_password">Password</label>
-                  <input type="password" class="form-control" id="login_password" placeholder="Password" name="password">
-               </div>
-               <p id="failed_" class="text-danger text-center hide">WiFiNation Login Failed!
-                  {% if page_vars['error_msg'] %} 
-                     <br/> {{ page_vars['error_msg'] }}
-                  {% endif %}
-               </p>
-            </div>
+            <input type="hidden" name="username">
+            <input type="hidden" name="password">
+
             <div>
-               <button id="btn-login" type="button" class="btn btn-block btn-warning">Member Login</button>
                <button style="margin-top:10px;margin-left: auto" class="btn btn-facebook btn-block">
                   <i class="icon-facebook"></i> | Connect now using Facebook
                </button>
-               <span>Not a member? <a href="http://wifination.ph/create">Join the revolution now!</a></span>
             </div>
          </form>
       </div>

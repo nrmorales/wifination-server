@@ -1,0 +1,32 @@
+<VirtualHost *:80>
+    ServerAdmin baguio.ivan@yahoo.com
+    DocumentRoot /home/ubuntu/wifination/http
+    <Directory />
+            Options FollowSymLinks
+            AllowOverride None
+    </Directory>
+
+    <Directory /home/ubuntu/wifination/http/>
+            Options Indexes FollowSymLinks MultiViews
+            AllowOverride None
+            Order allow,deny
+            allow from all
+    </Directory>
+    # ---- Configure WSGI Listener(s) ----
+
+    WSGIDaemonProcess wifination user=wifination group=www-data threads=5
+    WSGIScriptAlias /wifination /home/ubuntu/wifination-server/wsgi/wifination.wsgi 
+
+    <Directory /home/ubuntu/wifination-server/http/wifination>
+            WSGIProcessGroup wifinationapp
+            WSGIApplicationGroup %{GLOBAL}
+            Order deny,allow
+            Allow from all
+    </Directory>
+
+    # ---- Configure Logging ----
+
+    ErrorLog /home/ubuntu/wifination-server/logs/error.log
+    LogLevel warn
+    CustomLog /home/ubuntu/wifination-server/logs/access.log combined
+</VirtualHost>

@@ -96,7 +96,9 @@ def landingpage():
 
       logonUrl += "&userurl="+urllib.quote_plus(request_data['userurl']);
       print "LoginURL:",logonUrl
-      return redirect(logonUrl)
+      xx_ = redirect(logonUrl)
+      print xx_
+      return xx_
 
    #another part of the script
    result = 0

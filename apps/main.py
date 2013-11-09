@@ -16,7 +16,7 @@ def serveImage(filename):
 
 @app.route('/test2')
 def test2():
-   return render("landingpage.html",page_vars={},loginpath="/authenticate")
+   return render("landingpage.html",page_vars={},loginpath="/wifination/authenticate")
 
 @app.route('/test')
 def test():
@@ -132,7 +132,7 @@ def landingpage():
 
    if result == 2:
       if app.debug: print "WiFi Nation Login Failed!", request_data['reply']
-      return render("landingpage.html",page_vars = {'error_msg':"WiFi Nation Login Failed"},loginpath="/authenticate")
+      return render("landingpage.html",page_vars = {'error_msg':"WiFi Nation Login Failed"},loginpath="/wifination/authenticate")
 
    if result == 5:
       if app.debug: print "Not yet logged in"

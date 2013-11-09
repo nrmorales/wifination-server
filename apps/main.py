@@ -136,7 +136,7 @@ def landingpage():
 
    if result == 5:
       if app.debug: print "Not yet logged in"
-      return render("landingpage.html",page_vars=request_data,loginpath="/authenticate")
+      return render("landingpage.html",page_vars=request_data,loginpath="/wifination/authenticate")
 
    if result == 1:
       if app.debug: print "Logged in to WiFi Nation Success!"

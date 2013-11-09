@@ -81,13 +81,13 @@
 <div class="row" style="margin-top:7%">
    <div class="col-md-offset-1 col-md-3" >
       <div style="margin-bottom:5%">
-         <img src="static/img/wifination_logo.png" width="100">
-         <img src="static/img/statement.png" width="201">
+         <img src="static/img/wifination_logo.png" width="100" alt="WiFi Nation logo">
+         <img src="static/img/statement.png" width="201" alt="statement">
       </div>
       <div class="well">
          <h3 class="allerta">Access WiFi Nation</h3>
          
-         <form role="form" id="login_form" method="post" action="{{ login_formpath }}">
+         <form role="form" id="login_form" method="post" action="{{ loginpath }}">
             <input type="hidden" name="challenge" value="{{ page_vars['challenge'] }}">
             <input type="hidden" name="uamip" value="{{ page_vars['uamip'] }}">
             <input type="hidden" name="uamport" value="{{ page_vars['uamport'] }}">
@@ -108,11 +108,11 @@
       </div>
    </div>
    <div class="col-md-offset-2 col-md-4">
-         <img src="static/img/enjoy.png" width="300">
+         <img src="static/img/enjoy.png" width="300" alt="enjoy">
    </div>
    <div class="col-md-offset-3 col-md-4" style="margin-top:10%;">
-      <img id="img-thumb"src="static/img/thumb.png" width="150" alt="Wifination Logo">
-      <img src="static/img/lof.png" width="170">
+      <img id="img-thumb" src="static/img/thumb.png" width="150" alt="Wifination Logo">
+      <img src="static/img/lof.png" width="170" alt="lof">
    </div>
 </div>
 {% endblock %}

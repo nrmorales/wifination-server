@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block script%}
+<script>
+   $("button#btn-browse").click(function(){
+      window.location.replace = {{ redirect_url }};
+   });
+</script>
+{% endblock %}
+
+{% block css %}
+<style>
+   div.xocolat-div{
+      background-image: url("/static/img/bgx.jpg");
+   }
+</style>
+{% endblock %}
+
+{% block main_body %}
+   <div class="row" style="margin-top:3%;padding:0px 5%;">
+      <div class="col-md-8" style="height:400px;">
+         <div class="row">
+            <div class="col-md-4 well" style="height:400px;">
+               <div style="margin-top:27%"><center><h1 class="allerta"> Welcome to </h1></center></div>
+               <br/><center><img src="/static/img/xocolat.jpg" alt="Xocolat" style="height:35%;"></center>
+            </div>
+            <div class="col-md-8 xocolat-div" style="height:400px;">
+               <img src="/static/img/cover.jpg" style="width:96%;margin-top:8%;margin-left:2%">
+            </div>
+         </div>
+      </div>
+      <!--Survey-->
+      <div class="col-md-4" style="height:400px">
+         <div class="well" style="margin-left:7%;height:400px">
+            <span id="question"><h4>What is your favorite chocolate?</h4></span>
+            
+            <div id="choices">
+               <div class="row" style="margin-top:10px;width:95%;margin-left:3px">
+                  <div style="height:130px;margin-top:5px;" class="col-md-6">
+                     <label><input type="radio" name="fav">
+                        <img src="/static/img/old_fashioned.jpg" style="height:80%" alt="choco">
+                        <center>Old Fashioned</center>
+                     </label>
+                  </div>
+                  <div style="height:130px;margin-top:5px;" class="col-md-6">
+                     <label><input type="radio" name="fav">
+                        <img src="/static/img/organic.jpg" style="height:80%" alt="choco">
+                        <center>Organic</center>
+                     </label>
+                  </div>
+                  <div style="height:130px;margin-top:5px;" class="col-md-6">
+                     <label><input type="radio" name="fav">
+                        <img src="/static/img/wicked.jpg" style="height:80%" alt="choco">
+                        <center>Wicked</center>
+                     </label>
+                  </div>
+                  <div style="height:130px;margin-top:5px;" class="col-md-6">
+                     <label><input type="radio" name="fav">
+                        <img src="/static/img/rush.jpg" style="height:80%" alt="choco">
+                        <center>Rush</center>
+                     </label>
+                  </div>
+               </div>
+            </div>
+            <center>
+               <button id="btn-browse" class="btn btn-primary" style="margin-top:14px">Submit and Continue browsing</button>
+            </center>
+         </div>
+
+      </div>
+   </div>
+
+   <div class="row" style="margin-top:2%;padding:0px 5%;">
+      <div class="col-md-10" style="height:120px;">
+         <img src="/static/img/sogood.jpg" style="height:94%;">
+         <img src="/static/img/kfcbanner.jpg" style="height:94%;">
+         <img src="/static/img/kfcbucket.jpg" style="height:94%;">
+      </div>
+      <div class="col-md-2" style="height:120px;">
+         <div>
+            Powered by:
+            <br/>
+            <img src="/static/img/thumb.png" style="width:35%;">
+            <img src="/static/img/wifination_logo.png" style="width:50%;">
+         <div>
+      </div>
+   </div>
+{% endblock %}

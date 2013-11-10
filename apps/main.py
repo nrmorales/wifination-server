@@ -14,6 +14,10 @@ uamsecret = "uamsecret"
 def serveImage(filename):
    return url_for('static', filename=filename)
 
+@app.route('/test/ads')
+def testAds():
+   return render("redirecting.html", page_vars={})
+
 @app.route('/test')
 def test():
    ss = "data "+ str(request.data) +"<br/>"
@@ -27,6 +31,7 @@ def test():
    ss += "is_secure " + str(request.is_secure) +"<br/>"
    return ss
 
+@app.route('/wifination/authenticate', methods=['GET','POST'])
 @app.route('/authenticate', methods=['GET','POST'])
 def landingpage():
    if app.debug: print "processing landing page"
@@ -153,13 +158,14 @@ def landingpage():
 
 def redirect(redirect_url):
    if app.debug: print "Redirecting to",redirect_url
-   return render("simple.html", redirect_url=redirect_url, mesg="Please Wait...",headline="Logging in to WiFi Nation")
+   return render("redirecting.html", redirect_url=redirect_url)
+   #return render("simple.html", redirect_url=redirect_url, mesg="Please Wait...",headline="Logging in to WiFi Nation")
 
 def error(headline, mesg):
    if app.debug: print "Error:", headline, mesg
    return render("simple.html",headline=headline,mesg=mesg)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0',port=80)
 
 #http://localhost:5000/authenticate?res=notyet&uamip=192.168.182.1&uamport=3990&challenge=1f3590180f5ef93864dcfc0f5b17a15c&userurl=http%3a%2f%2fgeoip.ubuntu.com%2flookup&nasid=nas01&mac=E0-B9-A5-C6-59-1F

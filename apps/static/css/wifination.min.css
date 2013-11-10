@@ -5,7 +5,7 @@
     src: local('Allerta Regular'),local('Allerta-Regular'),url("../allerta.woff") format('woff');
 }
 body {
-    background-image: url("../img/ph.png");
+    /*background-image: url("../img/ph.png");*/
     background-size: 34%;
     background-repeat: no-repeat;
     background-color: #000;

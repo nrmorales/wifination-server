@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block script%}
+{% block scripts %}
 <script>
    $("button#btn-browse").click(function(){
       alert("bump");
@@ -12,7 +12,7 @@
 {% block css %}
 <style>
    div.xocolat-div{
-      background-image: url("../img/bgx.jpg");
+      background-image: url("static/img/bgx.jpg");
    }
 </style>
 {% endblock %}
@@ -23,7 +23,7 @@
          <div class="row">
             <div class="col-md-4 well" style="height:400px;">
                <div style="margin-top:27%"><center><h1 class="allerta"> Welcome to </h1></center></div>
-               <br/><center><img src="static/img/xocolat.jpg" alt="Xocolat" style="height:400px;"></center>
+               <br/><center><img src="static/img/xocolat.jpg" alt="Xocolat" style="height:130px;"></center>
             </div>
             <div class="col-md-8 xocolat-div" style="height:400px;">
                <img src="static/img/cover.jpg" style="width:96%;margin-top:8%;margin-left:2%">

@@ -3,6 +3,7 @@
 {% block script%}
 <script>
    $("button#btn-browse").click(function(){
+      alert("bump");
       window.location.replace = {{ redirect_url }};
    });
 </script>
@@ -11,7 +12,7 @@
 {% block css %}
 <style>
    div.xocolat-div{
-      background-image: url("/static/img/bgx.jpg");
+      background-image: url("../img/bgx.jpg");
    }
 </style>
 {% endblock %}
@@ -22,7 +23,7 @@
          <div class="row">
             <div class="col-md-4 well" style="height:400px;">
                <div style="margin-top:27%"><center><h1 class="allerta"> Welcome to </h1></center></div>
-               <br/><center><img src="static/img/xocolat.jpg" alt="Xocolat" style="height:35%;"></center>
+               <br/><center><img src="static/img/xocolat.jpg" alt="Xocolat" style="height:400px;"></center>
             </div>
             <div class="col-md-8 xocolat-div" style="height:400px;">
                <img src="static/img/cover.jpg" style="width:96%;margin-top:8%;margin-left:2%">
@@ -38,25 +39,25 @@
                <div class="row" style="margin-top:10px;width:95%;margin-left:3px">
                   <div style="height:130px;margin-top:5px;" class="col-md-6">
                      <label><input type="radio" name="fav">
-                        <img src="static/img/old_fashioned.jpg" style="height:80%" alt="choco">
+                        <img src="static/img/old_fashioned.jpg" style="height:110px" alt="choco">
                         <center>Old Fashioned</center>
                      </label>
                   </div>
                   <div style="height:130px;margin-top:5px;" class="col-md-6">
                      <label><input type="radio" name="fav">
-                        <img src="static/img/organic.jpg" style="height:80%" alt="choco">
+                        <img src="static/img/organic.jpg" style="height:110px" alt="choco">
                         <center>Organic</center>
                      </label>
                   </div>
                   <div style="height:130px;margin-top:5px;" class="col-md-6">
                      <label><input type="radio" name="fav">
-                        <img src="static/img/wicked.jpg" style="height:80%" alt="choco">
+                        <img src="static/img/wicked.jpg" style="height:110px" alt="choco">
                         <center>Wicked</center>
                      </label>
                   </div>
                   <div style="height:130px;margin-top:5px;" class="col-md-6">
                      <label><input type="radio" name="fav">
-                        <img src="static/img/rush.jpg" style="height:80%" alt="choco">
+                        <img src="static/img/rush.jpg" style="height:110px" alt="choco">
                         <center>Rush</center>
                      </label>
                   </div>

@@ -14,10 +14,6 @@ uamsecret = "uamsecret"
 def serveImage(filename):
    return url_for('static', filename=filename)
 
-@app.route('/test2')
-def test2():
-   return render("landingpage.html",page_vars={},loginpath="/wifination/authenticate")
-
 @app.route('/test')
 def test():
    ss = "data "+ str(request.data) +"<br/>"

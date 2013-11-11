@@ -52,7 +52,7 @@
          console.log(x.serializeArray());
       }
       //add click functionality to login button
-      $("button#btn-login").click(function(){FB.login()});
+      $("button#btn-login").bind("click",function(){FB.login()});
    };
 
    function testAPI() {

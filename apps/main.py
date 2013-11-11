@@ -128,6 +128,10 @@ def landingpage():
    if result == 0:
       return error("WiFi Nation Login Failed","Login must be performed through CoovaChilli daemon.")
 
+   if result == 1:
+      if app.debug: print "Logged in to WiFi Nation Success!"
+      return render("simple.html",headline="Logged in to WiFi Nation!",mesg="Logged in to WiFi Nation Success!")
+
    if result == 6:
       pass
 
@@ -138,10 +142,6 @@ def landingpage():
    if result == 5:
       if app.debug: print "Not yet logged in"
       return render("landingpage.html",page_vars=request_data,loginpath="/wifination/authenticate")
-
-   if result == 1:
-      if app.debug: print "Logged in to WiFi Nation Success!"
-      return render("simple.html",headline="Logged in to WiFi Nation!",mesg=request_data['reply'])
 
    if result == 4 or result == 12:
       logoutUrl = """<a href="http://%(uamip)s:%(uamport)s/logoff">Logout</a>"""%(request_data)

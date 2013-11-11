@@ -25,6 +25,7 @@
       });
 
       FB.getLoginStatus(function(response){
+         console.log("getLoginStatus")
          if (response.status === 'connected') {
             doLogin();
          }

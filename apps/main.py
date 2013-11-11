@@ -158,8 +158,8 @@ def landingpage():
 
 def redirect(redirect_url):
    if app.debug: print "Redirecting to",redirect_url
-   return render("redirecting.html", redirect_url=redirect_url, page_vars={})
-   #return render("simple.html", redirect_url=redirect_url, mesg="Please Wait...",headline="Logging in to WiFi Nation")
+   #return render("redirecting.html", redirect_url=redirect_url, page_vars={})
+   return render("simple.html", redirect_url=redirect_url, mesg="Please Wait...",headline="Logging in to WiFi Nation")
 
 def error(headline, mesg):
    if app.debug: print "Error:", headline, mesg

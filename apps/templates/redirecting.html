@@ -3,7 +3,7 @@
 {% block scripts %}
 <script>
    $("button#btn-browse").click(function(){
-      window.location.replace("{{ redirect_url }}");
+      window.location.replace("{{ redirect_url |safe}}");
    });
 </script>
 {% endblock %}

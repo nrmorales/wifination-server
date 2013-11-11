@@ -6,7 +6,7 @@
    <body bgColor="#c0d8f4">
       <h1 style="text-align: center;">{{ headline }}</h1>
          <center>
-            {{ mesg }}
+            {{ mesg |safe}}
          </center>
    </body>
    {% block hidden_xml %}

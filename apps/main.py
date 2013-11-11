@@ -128,6 +128,10 @@ def landingpage():
    if result == 0:
       return error("WiFi Nation Login Failed","Login must be performed through CoovaChilli daemon.")
 
+   if result == 1:
+      if app.debug: print "Logged in to WiFi Nation Success!"
+      return render("simple.html",headline="Logged in to WiFi Nation!",mesg="")
+
    if result == 6:
       pass
 
@@ -139,14 +143,10 @@ def landingpage():
       if app.debug: print "Not yet logged in"
       return render("landingpage.html",page_vars=request_data,loginpath="/wifination/authenticate")
 
-   if result == 1:
-      if app.debug: print "Logged in to WiFi Nation Success!"
-      return render("simple.html",headline="Logged in to WiFi Nation!",mesg=request_data['reply'])
-
    if result == 4 or result == 12:
       logoutUrl = """<a href="http://%(uamip)s:%(uamport)s/logoff">Logout</a>"""%(request_data)
       if app.debug: print "Logout URL:",logoutUrl
-      return render("simple.html",headline="Logged in to WiFi Nation!",mesg=logoutUrl)
+      return render("simple.html",headline="Logged in to WiFi Nation!",mesg=logoutUrl,redirect_url=request_data['userurl'])
 
    if result == 11:
       if app.debug: print "Logging in to WiFi Nation"
@@ -158,8 +158,8 @@ def landingpage():
 
 def redirect(redirect_url):
    if app.debug: print "Redirecting to",redirect_url
-   #return render("redirecting.html", redirect_url=redirect_url, page_vars={})
-   return render("simple.html", redirect_url=redirect_url, mesg="Please Wait...",headline="Logging in to WiFi Nation")
+   return render("redirecting.html", redirect_url=redirect_url, page_vars={})
+   #return render("simple.html", redirect_url=redirect_url, mesg="Please Wait...",headline="Logging in to WiFi Nation")
 
 def error(headline, mesg):
    if app.debug: print "Error:", headline, mesg

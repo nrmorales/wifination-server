@@ -4,14 +4,19 @@
     font-weight: 400;
     src: local('Allerta Regular'),local('Allerta-Regular'),url("../allerta.woff") format('woff');
 }
-body {
-    /*background-image: url("../img/ph.png");*/
-    background-size: 34%;
-    background-repeat: no-repeat;
-    background-color: #000;
-    background-position: 48% -45%;
-}
 h3.allerta {
     font-family: Allerta,sans-serif;
     font-size: 26px;
+}
+
+#wifination-logo{
+    width: 290px;
+    height: auto;
+}
+#fb-login-xs{
+    width: 80%;
+    margin: 0px 10%;
+}
+#btn-login{
+    margin-bottom: 2%;
 }

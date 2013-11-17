@@ -10,6 +10,14 @@ app.debug = True
 #constant variables
 uamsecret = "uamsecret"
 
+@app.route("/test-old")
+def login3():
+   return render("landingpage.html",page_vars={})
+
+@app.route("/test-new")
+def login2():
+   return render("landingpage-new.html",page_vars={})
+
 @app.route('/img/<filename>')
 def serveImage(filename):
    return url_for('static', filename=filename)
@@ -31,7 +39,6 @@ def test():
    ss += "is_secure " + str(request.is_secure) +"<br/>"
    return ss
 
-@app.route('/wifination/authenticate', methods=['GET','POST'])
 @app.route('/authenticate', methods=['GET','POST'])
 def landingpage():
    if app.debug: print "processing landing page"
@@ -141,12 +148,12 @@ def landingpage():
 
    if result == 5:
       if app.debug: print "Not yet logged in"
-      return render("landingpage.html",page_vars=request_data,loginpath="/wifination/authenticate")
+      return render("landingpage-new.html",page_vars=request_data,loginpath="/wifination/authenticate")
 
    if result == 4 or result == 12:
       logoutUrl = """<a href="http://%(uamip)s:%(uamport)s/logoff">Logout</a>"""%(request_data)
       if app.debug: print "Logout URL:",logoutUrl
-      return render("simple.html",headline="Logged in to WiFi Nation!",mesg=logoutUrl)
+      return render("simple.html",headline="Logged in to WiFi Nation!",mesg=logoutUrl,redirect_url=request_data['userurl'])
 
    if result == 11:
       if app.debug: print "Logging in to WiFi Nation"
@@ -158,8 +165,8 @@ def landingpage():
 
 def redirect(redirect_url):
    if app.debug: print "Redirecting to",redirect_url
-   #return render("redirecting.html", redirect_url=redirect_url, page_vars={})
-   return render("simple.html", redirect_url=redirect_url, mesg="Please Wait...",headline="Logging in to WiFi Nation")
+   return render("redirecting.html", redirect_url=redirect_url, page_vars={})
+   #return render("simple.html", redirect_url=redirect_url, mesg="Please Wait...",headline="Logging in to WiFi Nation")
 
 def error(headline, mesg):
    if app.debug: print "Error:", headline, mesg

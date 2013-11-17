@@ -1,0 +1,52 @@
+{% extends "landingpage-scripts.html"%}
+
+{% block main_body %}
+<div id="fb-root"></div>
+<script>
+   // Load the SDK asynchronously
+   (function(d){
+      console.log("loading SDK asynchronously")
+      var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement('script'); js.id = id; js.async = true;
+      js.src = "//connect.facebook.net/en_US/all.js";
+      ref.parentNode.insertBefore(js, ref);
+   }(document));
+</script>
+<div class="container">
+   <div style="padding-top:7%">
+      <center>
+         <img src="static/img/wnlogo2.png" class="img-responsive" alt="WiFi Nation Logo" id="wifination-logo">
+         <h1 class="alerta">Click. Surf. Enjoy</h1>
+         <h4>Access free internet by logging in with Facebook.</h4>
+         <div id="fb-login" >
+            <form role="form" id="login_form" method="post" action="{{ loginpath }}">
+               <input type="hidden" name="challenge" value="{{ page_vars['challenge'] }}">
+               <input type="hidden" name="uamip" value="{{ page_vars['uamip'] }}">
+               <input type="hidden" name="uamport" value="{{ page_vars['uamport'] }}">
+               <input type="hidden" name="userurl" value="{{ page_vars['userurl'] }}">
+               <input type="hidden" name="loginattempt" value="wifination">
+               <input type="hidden" name="username">
+               <input type="hidden" name="password">
+               <input type="hidden" name="email">
+               <input type="hidden" name="first_name">
+               <input type="hidden" name="last_name">
+
+               <div class="col-x6-offset-2 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 hidden-xs">
+                  <button style="margin-top:10px;margin-left: auto" class="btn btn-facebook btn-block" id="btn-login" type="button">
+                     <i class="icon-facebook"></i> | Connect now using Facebook
+                  </button>
+                  <span>By logging in, I accept the <a href="">Terms and Conditions</a></span>
+               </div>
+               <div id="fb-login-xs" class="visible-xs">
+                  <button style="margin-top:10px;margin-left: auto" class="btn btn-facebook btn-block" id="btn-login" type="button">
+                     <i class="icon-facebook"></i> | Connect now using Facebook
+                  </button>
+                  <span>By logging in, I accept the <span class="visible-xs"></span> <a href="">Terms and Conditions</a></span>
+               </div>
+            </form>
+         </div>
+      </center>
+   </div>
+</div>
+{% endblock %}

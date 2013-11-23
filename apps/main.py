@@ -1,11 +1,13 @@
 from flask import Flask
 from flask import render_template as render
 from flask import request, make_response, redirect, url_for
+from flask_mobility import Mobility
 
 import hashlib, urllib
 
 app = Flask(__name__)
 app.debug = True
+Mobility(app)
 
 #constant variables
 uamsecret = "uamsecret"
@@ -17,6 +19,16 @@ def login3():
 @app.route("/test-new")
 def login2():
    return render("landingpage-new.html",page_vars={})
+
+@app.route("/test/redirect")
+def redir():
+   if request.MOBILE:
+      return render("redirecting-mobile.html", page_vars={})
+   return render("redirecting.html", page_vars={})
+
+@app.route("/test/redirect-mob")
+def redir2():
+   return render("redirecting-mobile.html", page_vars={})
 
 @app.route('/img/<filename>')
 def serveImage(filename):
@@ -165,7 +177,11 @@ def landingpage():
 
 def redirect(redirect_url):
    if app.debug: print "Redirecting to",redirect_url
-   return render("redirecting.html", redirect_url=redirect_url, page_vars={})
+   if request.Mobility:
+      return render("redirecting-mobile.html", redirect_url=redirect_url, page_vars={})
+   else:
+      return render("redirecting.html", redirect_url=redirect_url, page_vars={})
+
    #return render("simple.html", redirect_url=redirect_url, mesg="Please Wait...",headline="Logging in to WiFi Nation")
 
 def error(headline, mesg):

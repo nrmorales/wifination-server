@@ -8,7 +8,9 @@ h3.allerta {
     font-family: Allerta,sans-serif;
     font-size: 26px;
 }
-
+h2.allerta {
+    font-family: Allerta,sans-serif;
+}
 #wifination-logo{
     width: 290px;
     height: auto;

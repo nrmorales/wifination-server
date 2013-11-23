@@ -1,0 +1,10 @@
+<html>
+   <head>
+      <title>Redirecting</title>
+      {% if redirect_url %}<meta http-equiv="refresh" content="0;url={{ redirect_url |safe }}">{% endif %}
+   </head>
+   <body>
+   </body>
+   {% block hidden_xml %}
+   {% endblock %}
+</html>

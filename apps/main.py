@@ -149,7 +149,7 @@ def landingpage():
 
    if result == 1:
       if app.debug: print "Logged in to WiFi Nation Success!"
-      return render("simple.html",headline="Logged in to WiFi Nation!",mesg="Logged in to WiFi Nation Success!",redirect_url=request_data['userurl'])
+      return render("simple-redirect.html",redirect_url=request_data['userurl'])
 
    if result == 6:
       pass
@@ -165,7 +165,7 @@ def landingpage():
    if result == 4 or result == 12:
       logoutUrl = """<a href="http://%(uamip)s:%(uamport)s/logoff">Logout</a>"""%(request_data)
       if app.debug: print "Logout URL:",logoutUrl
-      return render("simple.html",headline="Logged in to WiFi Nation!",mesg=logoutUrl,redirect_url=request_data['userurl'])
+      return render("simple-redirect.html",headline="Logged in to WiFi Nation!",mesg=logoutUrl,redirect_url=request_data['userurl'])
 
    if result == 11:
       if app.debug: print "Logging in to WiFi Nation"

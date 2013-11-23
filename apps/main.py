@@ -149,7 +149,7 @@ def landingpage():
 
    if result == 1:
       if app.debug: print "Logged in to WiFi Nation Success!"
-      return render("simple.html",headline="Logged in to WiFi Nation!",mesg="Logged in to WiFi Nation Success!")
+      return render("simple.html",headline="Logged in to WiFi Nation!",mesg="Logged in to WiFi Nation Success!",redirect_url=request_data['userurl'])
 
    if result == 6:
       pass
@@ -177,7 +177,7 @@ def landingpage():
 
 def redirect(redirect_url):
    if app.debug: print "Redirecting to",redirect_url
-   if request.Mobility:
+   if request.MOBILE:
       return render("redirecting-mobile.html", redirect_url=redirect_url, page_vars={})
    else:
       return render("redirecting.html", redirect_url=redirect_url, page_vars={})

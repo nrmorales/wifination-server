@@ -24,46 +24,7 @@
             FB.login();
          }
       });
-
-      FB.getLoginStatus(function(response){
-         if (response.status === 'connected') {
-            doLogin();
-         }
-      });
-
-      //function that gets user info and logs it in the 
-      function doLogin(){
-         FB.api("/me", function(response){
-            console.log("setting form info");
-            $("[name='username']").val("wifinationuser")
-            $("[name='password']").val("randomstring")
-            //$("[name='username']").val(response.username)
-            //$("[name='password']").val(response.id)
-            //$("[name='first_name']").val(response.first_name)
-            //$("[name='last_name']").val(response.last_name)
-            //if (response.email) $("[name='email']").val(response.email)
-            console.log("submitting form");
-            showForm();
-            $("#login_form").submit();
-         });
-      }
-
-      function showForm(){
-         var x = $("#login_form");
-         console.log(x.serializeArray());
-      }
-      //add click functionality to login button
-      $("button#btn-login").bind("click",function(){FB.login()});
    };
-   // Load the SDK asynchronously
-   (function(d){
-      console.log("loading SDK asynchronously")
-      var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
-      if (d.getElementById(id)) {return;}
-      js = d.createElement('script'); js.id = id; js.async = true;
-      js.src = "//connect.facebook.net/en_US/all.js";
-      ref.parentNode.insertBefore(js, ref);
-   }(document));
 </script>
 <div class="container">
    <div style="padding-top:7%">
@@ -88,6 +49,14 @@
                   <button style="margin-top:10px;margin-left: auto" class="btn btn-facebook btn-block" id="btn-login" type="button">
                      <i class="icon-facebook"></i> | Connect now using Facebook
                   </button>
+                  <div class="row" style="border:1px solid">
+                     <div class="col-md-2" style="border:1px solid">
+
+                     </div>
+                     <div class="col-md-8" style="border:1px solid">
+                        Welcome back !
+                     </div>
+                  </div>
                   <span>By logging in, I accept the <a href="">Terms and Conditions</a></span>
                </div>
                <div id="fb-login-xs" class="visible-xs">

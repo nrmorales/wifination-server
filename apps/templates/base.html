@@ -6,11 +6,12 @@
       <link rel="stylesheet" href="static/css/font-awesome.min.css">
       <link rel="stylesheet" href="static/css/wifination.min.css">
       {% block css %}{% endblock %}
+      {% block pre_scripts%}{% endblock %}
       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
       <!--<meta http-equiv="Cache-control" content="no-cache">
       <meta http-equiv="Pragma" content="no-cache">-->
-      {% if not page_vars  ['title'] %} <title>WiFi Nation Login</title>
-      {% else %} <title> {{ page_vars  ['title']}}</title>
+      {% if not page_vars['title'] %} <title>WiFi Nation Login</title>
+      {% else %} <title> {{ page_vars['title']}}</title>
       {% endif %}
    </head>
    <body>
@@ -19,6 +20,6 @@
       <script src="static/js/jquery.min.js"></script>
       <script src="static/js/bootstrap.min.js"></script>
       <script src="static/js/wifination.js"></script>
-      {% block scripts%}{% endblock %}
+      {% block post_scripts%}{% endblock %}
    </body>
 </html>

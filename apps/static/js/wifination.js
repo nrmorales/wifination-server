@@ -2,6 +2,7 @@ function showInvalid(){
    $("p#failed_").fadeIn("slow").removeClass('hide');
 }
 function submitForm(){
+  return;
    var ok = true;
    if ($("input#login_username").val() === ""){
       ok = false;
@@ -15,20 +16,14 @@ function submitForm(){
    if (ok){$("form#login_form").submit()}
 }
 function resolveFullHeight() {
-      $("#fullHeight").css("height", "auto");
+  $("#imgs-div").css("height", "auto");
 
-      var h_window = $(window).height(),
-        h_document = $(document).height(),
-        fullHeight_top = $("#fullHeight").position().top,
-        est_footerHeight = 50;
+  var h_window = $(window).height(),
+    h_document = $(document).height(),
+    fullHeight_top = $("#imgs-div").position().top,
+    est_footerHeight = 50;
 
-      var h_fullHeight = (-1 * (est_footerHeight + (fullHeight_top - h_document)));
+  var h_fullHeight = (-1 * (est_footerHeight + (fullHeight_top - h_document)));
 
-      $("#fullHeight").height(h_fullHeight);
-   }
-
-   resolveFullHeight();
-
-   $(window).resize(function () {
-      resolveFullHeight();
-   });
+  $("#imgs-div").height(h_fullHeight);
+}

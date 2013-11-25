@@ -2,44 +2,112 @@
 
 {% block pre_scripts %}
 <script>
+   var isClicked = false;
+   
    //function that gets user info and logs it in the 
-      function doLogin(){
-         FB.api("/me", function(response){
-            console.log("setting form info");
-            $("[name='username']").val("wifinationuser")
-            $("[name='password']").val("randomstring")
-            //$("[name='username']").val(response.username)
-            //$("[name='password']").val(response.id)
-            //$("[name='first_name']").val(response.first_name)
-            //$("[name='last_name']").val(response.last_name)
-            //if (response.email) $("[name='email']").val(response.email)
-            console.log("submitting form");
-            showForm();
-            $("#login_form").submit();
-         });
-      }
-
-      //show the form details on the log
-      function showForm(){
-         var x = $("#login_form");
-         console.log(x.serializeArray());
-      }
-
-      // Load the SDK asynchronously
-      (function(d){
-         console.log("loading SDK asynchronously")
-         var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
-         if (d.getElementById(id)) {return;}
-         js = d.createElement('script'); js.id = id; js.async = true;
-         js.src = "//connect.facebook.net/en_US/all.js";
-         ref.parentNode.insertBefore(js, ref);
-      }(document));
+   function doLogin(){
+      FB.api("/me", function(response){
+         console.log("setting form info");
+         $("[name='username']").val("wifinationuser")
+         $("[name='password']").val("randomstring")
+         //$("[name='username']").val(response.username)
+         //$("[name='password']").val(response.id)
+         //$("[name='first_name']").val(response.first_name)
+         //$("[name='last_name']").val(response.last_name)
+         if (response.email) $("[name='email']").val(response.email)
+         console.log("submitting form");
+         showForm();
+         $("#login_form").submit();
+      });
+   }
+   //calls fb.api(/'me') and stores the object
+   function loadUserDetails(){
+      return;
+      if (window.user_details == null){
+         console.log("loading user details")
+         FB.api('/me', function(response) {
+            window.user_details = jQuery.extend({},response)
+            detailsLoaded = true;
+            console.log("user details loaded")
+         })
+      }else{console.log("use details already loaded. skipping")}
+   }
+   //show the form details on the log
+   function showForm(){
+      var x = $("#login_form");
+      console.log(x.serializeArray());
+   }
 </script>
 {% endblock %}
 
 {% block post_scripts %}
 <script>
    //add click functionality to login button
-      $("button#btn-login").bind("click",function(){FB.login()});
+   $("button#btn-login").bind("click",function(){doFbLogin()});
+   $("a#logout-user").bind("click", function(){
+      FB.logout(function(response){ showLoading()})
+   });
+
+   function showLoading(){
+      $('img#img-loading').fadeIn(function(){
+         $('button#btn-login').hide();
+         $('div#logged-user-div').hide();
+      });
+   }
+
+   function welcomeUser(){
+      console.log("welcoming user")
+      FB.api('/me', function(response) {
+         console.log(response)
+         $("span#user-name").text(response.first_name)
+         $('img#user-pic').attr('src','//graph.facebook.com/'+response.id+'/picture')
+         $('img#img-loading').fadeOut(function(){
+            $('div#logged-user-div').css('visibility','visible').fadeIn().removeClass('hidden');
+            $('button#btn-login').hide();
+         });
+      })
+   }
+
+   function showLoginUser(){
+      console.log("loggin user")
+      $('img#img-loading').fadeOut(function(){
+         $('button#btn-login').css('visibility','visible').fadeIn().removeClass('hidden');
+         $('div#logged-user-div').hide();
+      });
+   }
+
+   function doFbLogin(){
+      FB.login(function(response){
+         //fb_publish();
+         doLogin()
+      }/*, {scope:'email,publish_actions'}*/);
+   }
+
+    function fb_publish() {
+     FB.ui({
+         method: 'stream.publish',
+         message: 'Test',
+         attachment: {
+           name: 'Test:Name',
+           caption: 'Test:Caption',
+           description: (
+             'Test:description here'
+           ),
+           href: 'http://wifination.ph'
+         },
+         action_links: [
+           { text: 'Test:Code', href: 'http://wifination.ph/action' }
+         ],
+         user_prompt_message: 'Tell your friends blah blah'
+       },
+       function(response) {
+         if (response && response.post_id) {
+           console.log('Post was published.');
+         } else {
+           console.log('Post was not published.');
+         }
+       }
+     );  
+  }
 </script>
 {% endblock %}

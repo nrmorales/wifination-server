@@ -4,7 +4,7 @@
 <script>
    var isClicked = false;
    
-   //function that gets user info and logs it in the 
+   /* queries fb for user info, and submits form */
    function doLogin(){
       FB.api("/me", function(response){
          console.log("setting form info");
@@ -20,18 +20,6 @@
          $("#login_form").submit();
       });
    }
-   //calls fb.api(/'me') and stores the object
-   function loadUserDetails(){
-      return;
-      if (window.user_details == null){
-         console.log("loading user details")
-         FB.api('/me', function(response) {
-            window.user_details = jQuery.extend({},response)
-            detailsLoaded = true;
-            console.log("user details loaded")
-         })
-      }else{console.log("use details already loaded. skipping")}
-   }
    //show the form details on the log
    function showForm(){
       var x = $("#login_form");
@@ -42,20 +30,24 @@
 
 {% block post_scripts %}
 <script>
-   //add click functionality to login button
-   $("button#btn-login").bind("click",function(){doFbLogin()});
+   $("button#btn-login").bind("click",function(){
+    doFbLogin() //add click function to login button
+    });
    $("a#logout-user").bind("click", function(){
       FB.logout(function(response){ showLoading()})
    });
 
-   function showLoading(){
+   function showLoading(msg){
       $('img#img-loading').fadeIn(function(){
          $('button#btn-login').hide();
          $('div#logged-user-div').hide();
+         if (msg){
+          
+         }
       });
    }
 
-   function welcomeUser(){
+   function showWelcomeUser(){
       console.log("welcoming user")
       FB.api('/me', function(response) {
          console.log(response)
@@ -68,8 +60,11 @@
       })
    }
 
+   /* user is not logged in to fb or has not 
+      yet authorized wifination show connect button */
    function showLoginUser(){
-      console.log("loggin user")
+      $("input[name='newuser']").val('true')
+      console.log("user not yet connected")
       $('img#img-loading').fadeOut(function(){
          $('button#btn-login').css('visibility','visible').fadeIn().removeClass('hidden');
          $('div#logged-user-div').hide();
@@ -83,31 +78,31 @@
       }/*, {scope:'email,publish_actions'}*/);
    }
 
-    function fb_publish() {
-     FB.ui({
-         method: 'stream.publish',
-         message: 'Test',
-         attachment: {
-           name: 'Test:Name',
-           caption: 'Test:Caption',
-           description: (
-             'Test:description here'
-           ),
-           href: 'http://wifination.ph'
-         },
-         action_links: [
-           { text: 'Test:Code', href: 'http://wifination.ph/action' }
-         ],
-         user_prompt_message: 'Tell your friends blah blah'
+  function fb_publish() {
+   FB.ui({
+       method: 'stream.publish',
+       message: 'Test',
+       attachment: {
+         name: 'Test:Name',
+         caption: 'Test:Caption',
+         description: (
+           'Test:description here'
+         ),
+         href: 'http://wifination.ph'
        },
-       function(response) {
-         if (response && response.post_id) {
-           console.log('Post was published.');
-         } else {
-           console.log('Post was not published.');
-         }
+       action_links: [
+         { text: 'Test:Code', href: 'http://wifination.ph/action' }
+       ],
+       user_prompt_message: 'Tell your friends blah blah'
+     },
+     function(response) {
+       if (response && response.post_id) {
+         console.log('Post was published.');
+       } else {
+         console.log('Post was not published.');
        }
-     );  
+     }
+   );  
   }
 </script>
 {% endblock %}

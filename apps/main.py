@@ -3,7 +3,7 @@ from flask import render_template as render
 from flask import request, make_response, redirect, url_for
 from flask_mobility import Mobility
 
-import hashlib, urllib
+import hashlib, urllib, database
 
 app = Flask(__name__)
 app.debug = True
@@ -37,6 +37,23 @@ def serveImage(filename):
 @app.route('/test/ads')
 def testAds():
    return render("redirecting.html", page_vars={})
+
+#stores primary info of user
+#aui = add user info
+@app.route('/cgi/aui',methods=["POST"])
+def addUserInfo():
+   uname = request.json['username']
+   #remove username from json
+   info = {key: value for key, value in request.json.items() if value is not uname}
+   database.addUserInfo(uname,info)
+
+#checks if the user's primary info is already stored
+@app.route('/cgi/verify')
+def isRegistered():
+   uname = request.json['username']
+   if database.userExists(username):
+      return "exists"
+   return "new"
 
 @app.route('/test')
 def test():

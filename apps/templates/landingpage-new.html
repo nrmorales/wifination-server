@@ -1,57 +1,15 @@
-{% extends "landingpage-scripts.html"%}
+{% extends "base.html"%}
+{% block post_scripts %}
+<script src="static/js/landing.js"></script>
+{% endblock %}
 
 {% block main_body %}
 <div id="fb-root"></div>
-<script>
-   window.fbAsyncInit = function() {
-      console.log('fbAsyncInit');
-      FB.init({
-         appId      : '248863558597971', // App ID
-         channelUrl : 'static/channel.html', // Channel File
-         status     : true, // check login status
-         cookie     : true, // enable cookies to allow the server to access the session
-         xfbml      : true  // parse XFBML
-      });
-
-      FB.Event.subscribe('auth.authResponseChange', function(response) {
-         console.log("responsechange");
-         if (response.status === 'connected') {
-            loadUserDetails()
-            if (!window.isClicked){     //user is already logged connected to wifination
-               welcomeUser();    //show welcome button to have user login
-            }else{
-               doLogin();   
-            }
-         } else if (response.status === 'not_authorized') {
-            doFbLogin();
-         } else {
-            doFbLogin();
-         }
-      });
-
-      FB.getLoginStatus(function(response) {
-         console.log("getting fb status");
-         if (response.status === 'connected') {
-            welcomeUser()
-         } else {
-            showLoginUser()
-         }
-      });
-   };
-   // Load the SDK asynchronously
-   (function(d){
-      console.log("loading SDK asynchronously")
-      var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
-      if (d.getElementById(id)) {return;}
-      js = d.createElement('script'); js.id = id; js.async = true;
-      js.src = "//connect.facebook.net/en_US/all.js";
-      ref.parentNode.insertBefore(js, ref);
-   }(document));
-</script>
+<script src="static/js/authenticate.js"></script>
 <div class="container">
    <div style="padding-top:7%">
       <center>
-         <img src="static/img/wnlogo2.png" class="img-responsive" alt="WiFi Nation Logo" id="wifination-logo">
+         <img id="wifination-logo" src="static/img/wnlogo3.png" class="img-responsive" alt="WiFi Nation Logo">
          <h1 class="alerta">Click. Surf. Enjoy.</h1>
          <h4>Access free internet by logging in with Facebook.</h4>
          <div id="fb-login" >
@@ -66,55 +24,63 @@
                <input type="hidden" name="email">
                <input type="hidden" name="first_name">
                <input type="hidden" name="last_name">
-
-               <div class="col-xs-offset-2 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 hidden-xs">
-                  <div><img src="static/img/loading.gif" alt="Loading.." id="img-loading"></div>
-                  <button style="margin-top:10px;margin-left: auto" class="btn btn-facebook btn-block hidden" id="btn-login" type="button">
-                     <i class="icon-facebook"></i> | Connect now using Facebook
-                  </button>
-                  <div class="container hidden" id="logged-user-div">
-                     <div class="row">
-                        <div class="col-md-offset-1 col-md-2">
-                           <img id="user-pic" class="img-rounded" style="margin-top:10%">
-                        </div>
-                        <div class="col-md-8">
-                           Welcome back <span id="user-name"></span>!
-                           <button id="btn-continue" class="btn btn-facebook btn-block">Click here to continue</button>
-                        </div>
-                     </div>
-                     <div class="row">
-                        Not <span id="user-name"></span>? <a href="#" id="logout-user">Sign-in as different user</a>
-                     </div>
-                  </div>
-                  <span style="font-size:10px;margin-top:2px;">
-                     By logging in, I accept the <a href="">Terms and Conditions</a>
-                  </span>
-               </div>
-               <div id="fb-login-xs" class="visible-xs">
-                  <div><img src="static/img/loading.gif" alt="Loading.." id="img-loading"></div>
-                  <button style="margin-top:10px;margin-left: auto;width:60%" class="btn btn-facebook btn-block hidden" id="btn-login" type="button">
-                     <i class="icon-facebook"></i> | Connect now using Facebook
-                  </button>
-                  <div class="container hidden" id="logged-user-div">
-                     <div class="row">
-                        <div class="col-xs-1"></div>
-                        <div class="col-xs-2">
-                           <img id="user-pic" class="img-rounded" style="margin-top:10%">
-                        </div>
-                        <div class="col-xs-7">
-                           Welcome back <span id="user-name"></span>!
-                           <button id="btn-continue" class="btn btn-facebook btn-block">Click here to continue</button>
-                        </div>
-                     </div>
-                     <div class="row" style="font-size:12px;margin-top:2px;">
-                        Not <span id="user-name"></span>? <a href="#" id="logout-user">Sign-in as different user</a>
-                     </div>
-                  </div>
-                  <div style="font-size:10px;margin-top:2px;">
-                     By logging in, I accept the <a href="">Terms and Conditions</a>
-                  </div>
-               </div>
+               <input type="hidden" name="newuser">
             </form>
+
+            <div class="col-xs-offset-2 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 hidden-xs">
+               <div>
+                  <img src="static/img/loading.gif" alt="Loading.." class="img-loading">
+                  <span claclass="loading-msg"></span>
+               </div>
+               <button style="margin-top:10px;margin-left: auto" class="btn btn-facebook btn-login btn-block hidden">
+                  <i class="icon-facebook"></i> | Connect now using Facebook
+               </button>
+               <div class="container hidden" id="logged-user-div">
+                  <div class="row">
+                     <div class="col-md-offset-1 col-md-2">
+                        <img id="user-pic" class="img-rounded" style="margin-top:10%">
+                     </div>
+                     <div class="col-md-8">
+                        Welcome back <span id="user-name"></span>!
+                        <button id="btn-continue" class="btn btn-facebook btn-block">Click here to continue</button>
+                     </div>
+                  </div>
+                  <div class="row">
+                     Not <span id="user-name"></span>? <a href="#" id="logout-user">Sign-in as different user</a>
+                  </div>
+               </div>
+               <span style="font-size:10px;margin-top:2px;">
+                  By logging in, I accept the <a href="">Terms and Conditions</a>
+               </span>
+            </div>
+            <div id="fb-login-xs" class="visible-xs">
+               <div>
+                  <img src="static/img/loading.gif" alt="Loading.." class="img-loading">
+                  <span class="loading-msg"></span>
+               </div>
+               <button style="margin-top:10px;margin-left: auto;width:60%" class="btn btn-login btn-facebook btn-block hidden">
+                  <i class="icon-facebook"></i> | Connect now using Facebook
+               </button>
+               <div class="container hidden" id="logged-user-div">
+                  <div class="row">
+                     <div class="col-xs-1"></div>
+                     <div class="col-xs-2">
+                        <img id="user-pic" class="img-rounded" style="margin-top:10%">
+                     </div>
+                     <div class="col-xs-7">
+                        Welcome back <span id="user-name"></span>!
+                        <button id="btn-continue" class="btn btn-facebook btn-block">Click here to continue</button>
+                     </div>
+                  </div>
+                  <div class="row" style="font-size:12px;margin-top:2px;">
+                     Not <span id="user-name"></span>? <a href="#" id="logout-user">Sign-in as different user</a>
+                  </div>
+               </div>
+               <div style="font-size:10px;margin-top:2px;">
+                  By logging in, I accept the <a href="">Terms and Conditions</a>
+               </div>
+            </div>
+            
          </div>
       </center>
    </div>

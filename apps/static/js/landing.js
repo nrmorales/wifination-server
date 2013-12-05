@@ -5,46 +5,60 @@ var isClicked = false;
         var keys = ["id","first_name","last_name","gender",
         "hometown","link","location","username","email","education"]
         console.log("setting form info");
-        $("[name='username']").val("wifinationuser")
-        $("[name='password']").val("randomstring")
-        if (response.email) $("[name='email']").val(response.email)
-        var xy = {};
-        for (var key in response){
-          if (keys.indexOf(key) >= 0)
-            xy[key] = response[key]
-            //console.log(key)
-        }
-        console.log(response)
-        console.log(JSON.stringify(xy))
-        console.log("submitting form");
-        showForm();
-        //$("#login_form").submit();
+        $("[name='username']").val("wifinationuser");
+        $("[name='password']").val("randomstring");
+        verifyUser()
       });
    }
-
+   /* checks if the user is already created in the server, if not
+      it sends a request to create it */
    function verifyUser(){
-      FB.api(".me", function(response){
-        
-      });
-
       FB.api("/me", function(response){
+        console.log("kox")
         var keys = ["id","first_name","last_name","gender",
         "hometown","link","location","username","email","education"]
-        var xy = {};
+        var info = {};
         for (var key in response){
           if (keys.indexOf(key) >= 0)
-            xy[key] = response[key]
+            info[key] = response[key]
         }
-
+        console.log(info)
         $.ajax({
           type : "POST",
-          url : "//localhost/wifination/cgi/verify",
-          data: JSON.stringify(xy, null, '\t'),
+          url : "/wifination/cgi/verify",
+          data: JSON.stringify(info, null, '\t'),
           contentType: 'application/json;charset=UTF-8',
           success: function(result) {
-              console.log(result);
+              console.log("result:"+result);
+              if (result == "new"){
+                console.log("new user. will add");
+                addUserInfo(info)
+              }else if(result == "exists"){
+                console.log("user exists. will login");
+              }
+          },
+          error: function(result){
+            console.log("fail");
+            console.log(result);
           }
         });
+      });
+   }
+   function addUserInfo(info){
+      $.ajax({
+        type: "POST",
+        url : "/wifination/cgi/aui",
+        data: JSON.stringify(info,null,'\t'),
+        contentType: 'application/json;charset=UTF-8',
+        success: function(result) {
+          console.log(result);
+          $("#login_form").submit();
+        },
+        error: function(result){
+          console.log("error")
+          console.log(result);
+          $("#login_form").submit();
+        }
       });
    }
    //show the form details on the log
@@ -88,7 +102,7 @@ var isClicked = false;
          /* check if user already is registered in */
          $.ajax({
           type : "POST",
-          url : "//localhost/wifination/cgi/verify",
+          url : "/wifination/cgi/verify",
           data: JSON.stringify({'username':response['username']}, null, '\t'),
           contentType: 'application/json;charset=UTF-8',
           success: function(result) {
@@ -116,7 +130,7 @@ var isClicked = false;
       FB.login(function(response){
          //fb_publish();
          doLogin()
-      }/*, {scope:'email,publish_actions'}*/);
+      }, {scope:'email,publish_actions'});
    }
 
   function fb_publish() {

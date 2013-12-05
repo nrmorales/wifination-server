@@ -33,16 +33,19 @@ def userExists(username):
       cur.execute(sql)
       if cur.fetchone()[0] > 0:
          return True
-      return False
    except:
       print "Failed to query"
+   finally:
+      return False
 
 def addUserInfo(username, info):
    db = getdb()
    cur = db.cursor()
-
+   print "adding",username
+   print "info",info
    def insertIt(key, val):
       try:
+         print "inserting",key,":",val
          sql = "INSERT INTO userdetails (username, attribute, value) VALUES \
             ('%s', '%s', '%s')"%(username, key, val)
          cur.execute(sql)
@@ -54,7 +57,7 @@ def addUserInfo(username, info):
       addUser(username)
    
    for key in info:
-      if type(info[key]) == str:
+      if type(info[key]) in [str,unicode]:
          insertIt(key, info[key])
       elif type(info[key]) == dict:
          sinfo = info[key]

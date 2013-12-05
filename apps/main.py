@@ -46,14 +46,17 @@ def addUserInfo():
    #remove username from json
    info = {key: value for key, value in request.json.items() if value is not uname}
    database.addUserInfo(uname,info)
+   return "ok"
 
 #checks if the user's primary info is already stored
-@app.route('/cgi/verify')
+@app.route('/cgi/verify',methods=["POST"])
 def isRegistered():
+   USER_NEW = "new"
+   USER_EXISTS = "exists"
    uname = request.json['username']
-   if database.userExists(username):
-      return "exists"
-   return "new"
+   if database.userExists(uname):
+      return USER_EXISTS
+   return USER_NEW
 
 @app.route('/test')
 def test():
@@ -69,6 +72,7 @@ def test():
    return ss
 
 @app.route('/authenticate', methods=['GET','POST'])
+@app.route('/wifination/authenticate', methods=['GET','POST'])
 def landingpage():
    if app.debug: print "processing landing page"
    def getRequestData():   #returns the get parameters
@@ -162,7 +166,9 @@ def landingpage():
    if app.debug: print "Result:",result
 
    if result == 0:
-      return error("WiFi Nation Login Failed","Login must be performed through CoovaChilli daemon.")
+      err = """Login must be performed through CoovaChilli daemon.
+      <br/><a href="authenticate?res=notyet&uamip=192.168.182.1&uamport=3990&challenge=1f3590180f5ef93864dcfc0f5b17a15c&userurl=http%3a%2f%2fgeoip.ubuntu.com%2flookup&nasid=nas01&mac=E0-B9-A5-C6-59-1F">Click here</a>"""
+      return error("WiFi Nation Login Failed",err)
 
    if result == 1:
       if app.debug: print "Logged in to WiFi Nation Success!"

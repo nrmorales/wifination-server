@@ -71,9 +71,13 @@ def test():
    ss += "is_secure " + str(request.is_secure) +"<br/>"
    return ss
 
+@app.route('/demo',methods=['GET','POST'])
+def showDemo():
+   landingpage(demo=True)
+
 @app.route('/authenticate', methods=['GET','POST'])
 @app.route('/wifination/authenticate', methods=['GET','POST'])
-def landingpage():
+def landingpage(demo=False):
    if app.debug: print "processing landing page"
    def getRequestData():   #returns the get parameters
       data = {}
@@ -98,21 +102,16 @@ def landingpage():
    second_cond = "loginattempt" in request_data and request_data["loginattempt"] == "wifination"
 
    if app.debug: print "First Condition:",first_cond,"Second Condition:",second_cond
-   if first_cond or second_cond:
-      
+   if first_cond or second_cond:   
       hexchal = request_data["challenge"].decode("hex")
-
-      if uamsecret:
-         toHash = hexchal+uamsecret
-      else:
-         toHash = hexchal
+      if uamsecret: toHash = hexchal+uamsecret
+      else: toHash = hexchal
       
       md5hash = hashlib.md5(toHash)
       newchal = md5hash.hexdigest()
 
       #url details dictionary
-      lurldet =  {'uamip':request_data['uamip'],
-                  'uamport':request_data['uamport'],
+      lurldet =  {'uamip':request_data['uamip'], 'uamport':request_data['uamport'],
                   'username':urllib.quote_plus(request_data['username'])}
 
       logonUrl = "http://%(uamip)s:%(uamport)s/logon?username=%(username)s"%(lurldet)
@@ -128,40 +127,15 @@ def landingpage():
       # Generate a CHAP response with the password and the
       # challenge (which may have been uamsecret encoded)
       else:
-         print "generating chap response"
-         print "password",request_data['password']
-         print "newchal",newchal
-
          response = hashlib.md5(request_data['password']+newchal).hexdigest()
          logonUrl += "&response="+urllib.quote_plus(response)
 
       logonUrl += "&userurl="+urllib.quote_plus(request_data['userurl']);
       print "LoginURL:",logonUrl
-      xx_ = redirect(logonUrl)
-      print xx_
-      return xx_
+      return redirect(logonUrl,demo)
 
    #another part of the script
-   result = 0
-   if "res" not in request_data: pass
-   elif request_data['res'] == "success":
-      result = 1
-   elif request_data['res'] == "failed":
-      result = 2
-   elif request_data['res'] == "logoff":
-      result = 3
-   elif request_data['res'] == "already":
-      result = 4
-   elif request_data['res'] == "notyet":
-      result = 5
-   elif request_data['res'] == "wispr":
-      result = 6
-   elif request_data['res'] == "popup1":
-      result = 11
-   elif request_data['res'] == "popup2":
-      result = 12
-   elif request_data['res'] == "popup3":
-      result = 13
+   result = getResult(request_data)
 
    if app.debug: print "Result:",result
 
@@ -198,18 +172,32 @@ def landingpage():
       if app.debug: print "Logged out from WiFi Nation"
       return render("simple.html",headline="Logged out from WiFi Nation",mesg="")
 
-def redirect(redirect_url):
+def redirect(redirect_url,demo):
    if app.debug: print "Redirecting to",redirect_url
    if request.MOBILE:
-      return render("redirecting-mobile.html", redirect_url=redirect_url, page_vars={})
+      return render("surverpage-mobile.html", redirect_url=redirect_url, page_vars={})
    else:
-      return render("redirecting.html", redirect_url=redirect_url, page_vars={})
+      return render("surverpage.html", redirect_url=redirect_url, page_vars={})
 
    #return render("simple.html", redirect_url=redirect_url, mesg="Please Wait...",headline="Logging in to WiFi Nation")
 
 def error(headline, mesg):
    if app.debug: print "Error:", headline, mesg
    return render("simple.html",headline=headline,mesg=mesg)
+
+#returns the appropriate result code depending on the request_data['res']
+def getResult(request_data):
+   if "res" not in request_data: return 0
+   elif request_data['res'] == "success": return 1
+   elif request_data['res'] == "failed":  return 2
+   elif request_data['res'] == "logoff":  return 3
+   elif request_data['res'] == "already": return 4
+   elif request_data['res'] == "notyet":  return 5
+   elif request_data['res'] == "wispr":   return 6
+   elif request_data['res'] == "popup1":  return 11
+   elif request_data['res'] == "popup2":  return 12
+   elif request_data['res'] == "popup3":  return 13
+   return 0
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=80)

@@ -53,7 +53,8 @@ function installCoova{
 }
 
 function updateConfigMobile{
-
+  opkg install usb-modeswitch
+  opkg install usb-modeswitch-data
 }
 
 function updateConfig{

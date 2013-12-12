@@ -15,7 +15,7 @@ function submitForm(){
    }
    if (ok){$("form#login_form").submit()}
 }
-function resolveFullHeight() {
+/*function resolveFullHeight() {
   $("#imgs-div").css("height", "auto");
 
   var h_window = $(window).height(),
@@ -26,4 +26,4 @@ function resolveFullHeight() {
   var h_fullHeight = (-1 * (est_footerHeight + (fullHeight_top - h_document)));
 
   $("#imgs-div").height(h_fullHeight);
-}
+}*/

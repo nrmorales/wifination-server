@@ -20,6 +20,10 @@ def login3():
 def login2():
    return render("landingpage-new.html",page_vars={})
 
+@app.route("/test-demo")
+def tdemo():
+   return render("surveypage-demo.html",page_vars={})
+
 @app.route("/test/redirect")
 def redir():
    if request.MOBILE:
@@ -72,8 +76,9 @@ def test():
    return ss
 
 @app.route('/demo',methods=['GET','POST'])
+@app.route('/wifination/demo',methods=['GET','POST'])
 def showDemo():
-   landingpage(demo=True)
+   return landingpage(demo=True)
 
 @app.route('/authenticate', methods=['GET','POST'])
 @app.route('/wifination/authenticate', methods=['GET','POST'])
@@ -157,6 +162,8 @@ def landingpage(demo=False):
 
    if result == 5:
       if app.debug: print "Not yet logged in"
+      if demo:
+         return render("landingpage-new.html",page_vars=request_data,loginpath="/wifination/demo")
       return render("landingpage-new.html",page_vars=request_data,loginpath="/wifination/authenticate")
 
    if result == 4 or result == 12:
@@ -174,10 +181,11 @@ def landingpage(demo=False):
 
 def redirect(redirect_url,demo):
    if app.debug: print "Redirecting to",redirect_url
+   if demo: return render("surveypage-demo.html", redirect_url=redirect_url, page_vars={}, ismobile=request.MOBILE)
    if request.MOBILE:
-      return render("surverpage-mobile.html", redirect_url=redirect_url, page_vars={})
+      return render("surveypage-mobile.html", redirect_url=redirect_url, page_vars={})
    else:
-      return render("surverpage.html", redirect_url=redirect_url, page_vars={})
+      return render("surveypage.html", redirect_url=redirect_url, page_vars={})
 
    #return render("simple.html", redirect_url=redirect_url, mesg="Please Wait...",headline="Logging in to WiFi Nation")
 

@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block post_scripts %}
+<script>
+   $("button#btn-continue").click(function(){
+      window.location.replace("{{ redirect_url | safe}}");
+   });
+</script>
+{% endblock %}
+
+{% block css %}
+<style>
+body {
+   background-color: #ECECEC;
+}
+</style>
+{% endblock %}
+
+{% block main_body %}
+<div class="container" style="margin-top:1%;" id="fullHeight">
+  <center>
+    <div class="row" style="height:120px;background-color:#0066FF;width:75%">
+      <div class="col-md-2">
+        <img src="static/img/manila_seal.png" class="img-responsive" alt="City of Manila Seal" style="padding-top:8%;margin-left:10%;height:86%">
+      </div>
+      <div class="col-md-7 col-md-offset-1" style=";padding-top:2%">
+        <h1><strong>News &amp Announcements</strong></h1>
+      </div>
+    </div>
+    <div class="row well" style="height:125px;background-color:#FFFF99;width:70%;margin-top:15px;padding-top:5px">
+      <h4>City of Manila to donate PhP 16M to typhoon victims</h4>
+      <p style="padding:5px 30px;text-align:justify">MANILA, Philippines — The city of Manila is to donate a total of P16 million to Tacloban City and two other towns in Leyte and Eastern Samar that were badly hit by Supertyphoon “Yolanda” (Haiyan). Read more: <a href="#">Philippine Daily Inquirer</a></p>
+    </div>
+    <div class="row well" style="height:105px;background-color:#66CC66;width:70%;padding-top:5px">
+          <h4>Manila City Hall joins drive for 1M clean toilets</h4>
+          <p style="padding:5px 30px;text-align:justify">
+        This was the theme of Tuesday’s celebration of World Toilet Day which was attended by more than 100 women who pledged to take part in the 1 Million Clean Toilets Movement. Read more: <a href="#">Philippine Daily Inquirer</a></p>
+    </div>
+
+    <div class="row well" style="height:190px;background-color:#3399CC;width:70%;padding-top:5px">
+      <div class="col-md-6 col-md-offset-3">
+        <form>
+          <h4>Favorite place in Manila:</h4>
+          <div class="radio" style="width:35%">
+            <label>
+              <input type="radio" name="optionsRadios" id="optionsRadios1" value="laguna">
+              Laguna Park
+            </label>
+          </div>
+          <div class="radio" style="width:35%">
+            <label>
+              <input type="radio" name="optionsRadios" id="optionsRadios2" value="bay">
+              Manila Bay
+            </label>
+          </div>
+          <div class="radio" style="width:35%">
+            <label>
+              <input type="radio" name="optionsRadios" id="optionsRadios2" value="intramurous">
+              Intramurous
+            </label>
+          </div>
+
+          <div class="radio" style="width:35%">
+            <label>
+              <input type="radio" name="optionsRadios" id="optionsRadios2" value="other">
+              Other
+            </label>
+          </div>          
+          <button style="width:70%" type="button" class="btn btn-success btn-sm btn-block" id="btn-continue">Submit and Continue Browsing</button>
+        </form>
+      </div>
+  </center>
+</div>
+{% endblock %}

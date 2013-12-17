@@ -47,3 +47,21 @@ Reboot router
 After reboot, coova chilli is already installed and configured. Try going to facebook or google, and expect a WiFi Nation redirect page to be displayed in your browser. If no wifination page is displayed, something is wrong, perhaps try to disconnect and reconnect your wifi of your computer.
 
 NOTE: coovachilli only works on WiFi, so if you cannot connect to the internet, try connecting to the router thru LAN.
+
+
+
+====================================================
+MOBILE ROUTER - 3g Installation
+====================================================
+
+opkg update
+opkg install comgt
+opkg install kmod-usb-uhci*
+opkg install kmod-usb-serial
+opkg install kmod-usb-serial-option
+opkg install usb-modeswitch-data
+opkg install sdparm
+opkg install luci-proto-3g
+
+
+

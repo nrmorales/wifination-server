@@ -8,11 +8,11 @@ function createWireless {
 }
 
 function flashRouter{
-  
+
 }
 
 #function that creates the coova chilli defaults configuration file
-function setCoovaConfig {
+function setCoovaConfig { 
   nas_id=$1
   wanif=$2
   lanif=$3

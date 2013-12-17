@@ -24,6 +24,14 @@ def login2():
 def tdemo():
    return render("surveypage-demo.html",page_vars={})
 
+@app.route("/test-manila")
+def tdemo2():
+   return render("landing-manila.html",page_vars={})
+
+@app.route("/test-manila-survey")
+def tdemo3():
+   return render("survey-manila.html",page_vars={})
+
 @app.route("/test/redirect")
 def redir():
    if request.MOBILE:
@@ -78,11 +86,16 @@ def test():
 @app.route('/demo',methods=['GET','POST'])
 @app.route('/wifination/demo',methods=['GET','POST'])
 def showDemo():
-   return landingpage(demo=True)
+   return landingpage(mode="demo")
+
+@app.route('/demo-manila',methods=['GET','POST'])
+@app.route('/wifination/demo-manila',methods=['GET','POST'])
+def showDemoManila():
+   return landingpage(mode="manila")
 
 @app.route('/authenticate', methods=['GET','POST'])
 @app.route('/wifination/authenticate', methods=['GET','POST'])
-def landingpage(demo=False):
+def landingpage(mode=None):
    if app.debug: print "processing landing page"
    def getRequestData():   #returns the get parameters
       data = {}
@@ -137,7 +150,7 @@ def landingpage(demo=False):
 
       logonUrl += "&userurl="+urllib.quote_plus(request_data['userurl']);
       print "LoginURL:",logonUrl
-      return redirect(logonUrl,demo)
+      return redirect(logonUrl,mode)
 
    #another part of the script
    result = getResult(request_data)
@@ -146,7 +159,7 @@ def landingpage(demo=False):
 
    if result == 0:
       err = """Login must be performed through CoovaChilli daemon.
-      <br/><a href="authenticate?res=notyet&uamip=192.168.182.1&uamport=3990&challenge=1f3590180f5ef93864dcfc0f5b17a15c&userurl=http%3a%2f%2fgeoip.ubuntu.com%2flookup&nasid=nas01&mac=E0-B9-A5-C6-59-1F">Click here</a>"""
+      <br/><a href="demo-manila?res=notyet&uamip=192.168.182.1&uamport=3990&challenge=1f3590180f5ef93864dcfc0f5b17a15c&userurl=http%3a%2f%2fgoogle.com&nasid=nas01&mac=E0-B9-A5-C6-59-1F">Click here</a>"""
       return error("WiFi Nation Login Failed",err)
 
    if result == 1:
@@ -162,9 +175,12 @@ def landingpage(demo=False):
 
    if result == 5:
       if app.debug: print "Not yet logged in"
-      if demo:
+      if mode == "demo":
          return render("landingpage-new.html",page_vars=request_data,loginpath="/wifination/demo")
-      return render("landingpage-new.html",page_vars=request_data,loginpath="/wifination/authenticate")
+      elif mode == "manila":
+         return render("landingpage-manila.html",page_vars=request_data,loginpath="/wifination/demo-manila")
+      else:
+         return render("landingpage-new.html",page_vars=request_data,loginpath="/wifination/authenticate")
 
    if result == 4 or result == 12:
       logoutUrl = """<a href="http://%(uamip)s:%(uamport)s/logoff">Logout</a>"""%(request_data)
@@ -179,9 +195,13 @@ def landingpage(demo=False):
       if app.debug: print "Logged out from WiFi Nation"
       return render("simple.html",headline="Logged out from WiFi Nation",mesg="")
 
-def redirect(redirect_url,demo):
+def redirect(redirect_url,mode):
    if app.debug: print "Redirecting to",redirect_url
-   if demo: return render("surveypage-demo.html", redirect_url=redirect_url, page_vars={}, ismobile=request.MOBILE)
+   if mode == "demo": 
+      return render("surveypage-demo.html", redirect_url=redirect_url, page_vars={}, ismobile=request.MOBILE)
+   elif mode == "manila":
+      return render("surveypage-manila.html", redirect_url=redirect_url, page_vars={})
+   
    if request.MOBILE:
       return render("surveypage-mobile.html", redirect_url=redirect_url, page_vars={})
    else:

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block scripts %}
+{% block post_scripts %}
 <script>
    $("button#btn-browse").click(function(){
       window.location.replace("{{ redirect_url | safe}}");

@@ -30,7 +30,10 @@ def tdemo2():
 
 @app.route("/test-manila-survey")
 def tdemo3():
-   return render("survey-manila.html",page_vars={})
+   if request.MOBILE:
+      return render("surveypage-manila-mobile.html",page_vars={})
+   else:
+      return render("surveypage-manila.html",page_vars={})
 
 @app.route("/test/redirect")
 def redir():
@@ -200,7 +203,10 @@ def redirect(redirect_url,mode):
    if mode == "demo": 
       return render("surveypage-demo.html", redirect_url=redirect_url, page_vars={}, ismobile=request.MOBILE)
    elif mode == "manila":
-      return render("surveypage-manila.html", redirect_url=redirect_url, page_vars={})
+      if request.MOBILE:
+         return render("surveypage-manila-mobile.html", redirect_url=redirect_url, page_vars={})   
+      else:
+         return render("surveypage-manila.html", redirect_url=redirect_url, page_vars={})
    
    if request.MOBILE:
       return render("surveypage-mobile.html", redirect_url=redirect_url, page_vars={})

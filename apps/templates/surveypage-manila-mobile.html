@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block scripts %}
+<script>
+   $("button#btn-browse").click(function(){
+      window.location.replace("{{ redirect_url | safe}}");
+   });
+</script>
+{% endblock %}
+
+{% block main_body %}
+<div class="container">
+  <div style=";padding:1px 0px" class="row well">
+      <center><h2 style="color:#A00000">News and Announcements</h2></center>
+  </div>
+  <div style="background-color:#FCCE12;padding:1px 0px;margin-top:5px" class="row">
+      <center>
+      <h4>City of Manila to donate PhP 16M to typhoon victims</h4>
+      <p style="padding:5px 30px;text-align:justify">MANILA, Philippines — The city of Manila is to donate a total of P16 million to Tacloban City and two other towns in Leyte and Eastern Samar that were badly hit by Supertyphoon “Yolanda” (Haiyan). Read more: <a href="#">Philippine Daily Inquirer</a></p>
+      <center>
+  </div>
+
+      <div class="row well" style="height:190px;background-color:#3399CC;padding-top:1px;margin-top:5px">
+      <div style="margin-left:20%">
+        <form>
+          <h4>Favorite place in Manila:</h4>
+          <div class="radio" style="width:70%">
+            <label>
+              <input type="radio" name="optionsRadios" id="optionsRadios1" value="laguna">
+              Laguna Park
+            </label>
+          </div>
+          <div class="radio" style="width:70%">
+            <label>
+              <input type="radio" name="optionsRadios" id="optionsRadios2" value="bay">
+              Manila Bay
+            </label>
+          </div>
+          <div class="radio" style="width:70%">
+            <label>
+              <input type="radio" name="optionsRadios" id="optionsRadios2" value="intramurous">
+              Intramurous
+            </label>
+          </div>
+
+          <div class="radio" style="width:70%">
+            <label>
+              <input type="radio" name="optionsRadios" id="optionsRadios2" value="other">
+              Other
+            </label>
+          </div>          
+          <button style="width:70%;margin-top:5px" type="button" class="btn btn-success btn-sm btn-block" id="btn-continue">Continue Browsing</button>
+        </form>
+      </div>
+      </div>
+    <div style="padding:0px 20px;margin-top:5px" class="row">
+      <div style="">
+        <span style="float:left;">Hatid sa inyo ng:</span>
+        <span style="float:right;">Powered by:</span>
+      </div>
+      <div style="padding:0px 20px;">
+        <br/><img src="static/img/manila_seal.png" class="img-responsive" alt="City of Manila Seal" style="height:80px;float:left">
+
+        <img src="static/img/wnlogo2.png" class="img-responsive" alt="City of Manila Seal" style="height:80px;float:right">
+      </div>
+    </div>
+
+</div>
+{% endblock %}

@@ -35,6 +35,10 @@ def tdemo3():
    else:
       return render("surveypage-manila.html",page_vars={})
 
+@app.route("/test-synetcom")
+def tdemo4():
+   return render("surveypage-synetcom.html",page_vars={})
+
 @app.route("/test/redirect")
 def redir():
    if request.MOBILE:
@@ -95,6 +99,11 @@ def showDemo():
 @app.route('/wifination/demo-manila',methods=['GET','POST'])
 def showDemoManila():
    return landingpage(mode="manila")
+
+@app.route('/demo-synetcom',methods=['GET','POST'])
+@app.route('/wifination/demo-synetcom',methods=['GET','POST'])
+def showDemoSynetcom():
+   return landingpage(mode="synetcom")
 
 @app.route('/authenticate', methods=['GET','POST'])
 @app.route('/wifination/authenticate', methods=['GET','POST'])
@@ -162,7 +171,7 @@ def landingpage(mode=None):
 
    if result == 0:
       err = """Login must be performed through CoovaChilli daemon.
-      <br/><a href="demo-manila?res=notyet&uamip=192.168.182.1&uamport=3990&challenge=1f3590180f5ef93864dcfc0f5b17a15c&userurl=http%3a%2f%2fgoogle.com&nasid=nas01&mac=E0-B9-A5-C6-59-1F">Click here</a>"""
+      <br/><a href="demo-synetcom?res=notyet&uamip=192.168.182.1&uamport=3990&challenge=1f3590180f5ef93864dcfc0f5b17a15c&userurl=http%3a%2f%2fgoogle.com&nasid=nas01&mac=E0-B9-A5-C6-59-1F">Click here</a>"""
       return error("WiFi Nation Login Failed",err)
 
    if result == 1:
@@ -182,6 +191,8 @@ def landingpage(mode=None):
          return render("landingpage-new.html",page_vars=request_data,loginpath="/wifination/demo")
       elif mode == "manila":
          return render("landingpage-manila.html",page_vars=request_data,loginpath="/wifination/demo-manila")
+      elif mode == "synetcom":
+         return render("landingpage-new.html",page_vars=request_data,loginpath="/wifination/demo-synetcom")
       else:
          return render("landingpage-new.html",page_vars=request_data,loginpath="/wifination/authenticate")
 
@@ -207,6 +218,8 @@ def redirect(redirect_url,mode):
          return render("surveypage-manila-mobile.html", redirect_url=redirect_url, page_vars={})   
       else:
          return render("surveypage-manila.html", redirect_url=redirect_url, page_vars={})
+   elif mode == "synetcom":
+      return render("surveypage-synetcom.html", redirect_url=redirect_url, page_vars={})
    
    if request.MOBILE:
       return render("surveypage-mobile.html", redirect_url=redirect_url, page_vars={})

@@ -26,3 +26,19 @@ h2.allerta {
 #btn-login{
     margin-bottom: 2%;
 }
+.img-thumbnail-selected{
+   display:inline-block;
+   height:auto;
+   max-width:100%;
+   padding:4px;
+   line-height:1.428571429;
+   background-color:#00ABBD;
+   border:1px solid #ddd;
+   border-radius:4px;
+   -webkit-transition:all .2s ease-in-out;
+   transition:all .2s ease-in-out
+}
+.wn-option{
+    cursor: pointer;
+    cursor: hand;
+}

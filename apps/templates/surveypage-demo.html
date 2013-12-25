@@ -2,19 +2,32 @@
 
 {% block post_scripts %}
 <script>
-   $("button#btn-browse").click(function(){
+   $("button#btn-continue").click(function(){
+    if ($('input[name="soda"]').val() !== ""){
       window.location.replace("{{ redirect_url | safe}}");
+    }else{
+      $("#continue-fail").css('visibility','visible').fadeIn().removeClass('hidden');
+    }
    });
 
-  //resolveFullHeight();
-
-  $(window).resize(function () {
-    //resolveFullHeight();
-  });
   $('#demo_cake').popover({trigger:"hover",html:true});
   $('#demo_coffee').popover({trigger:"hover",html:true});
+  $('#demo_sandwich').popover({trigger:"hover",html:true});
+  $('#demo_oj').popover({trigger:"hover",html:true});
   $('#demo_cereal').popover({trigger:"hover",container:"body",html:true});
   $('#demo_title').popover({trigger:"hover",container:"body",html:true});
+  $('#demo_survey').popover({trigger:"hover",container:"body",html:true});
+  
+  $('#img-pepsi').click(function(){
+    $('#img-coke').attr('class','img-thumbnail wn-option');
+    $('#img-pepsi').attr('class','img-thumbnail-selected wn-option');
+    $('input[name="soda"]').val('pepsi');
+  });
+  $('#img-coke').click(function(){
+    $('#img-coke').attr('class','img-thumbnail-selected wn-option');
+    $('#img-pepsi').attr('class','img-thumbnail wn-option');
+    $('input[name="soda"]').val('coke');
+  });
 </script>
 {% endblock %}
 
@@ -50,27 +63,55 @@ body {
             <code>Did you know: MyCafe serves the best cereals in town!</code>
           </div>
           <h4>Tasty specials for today:</h4>
+            <a href="#" id="demo_sandwich" data-trigger="hover" data-content="Heavy sandwich for the stomach! <br/>Price: PhP 60.00" title="Sandwich" rel="popover" data-placement="top" class="col-md-4">
+              <img src="static/img/demo_sandwich.jpg" style="height:130px" class="img-rounded">
+              <center><label>Sandwich</label></center>
+            </a>
+
             <a href="#" id="demo_cake" data-trigger="hover" data-content="Our signature cake! <br/>Price: PhP 50.00" title="Choco cake" rel="popover" data-placement="top" class="col-md-4">
               <img src="static/img/demo_cake.jpg" style="height:130px" class="img-rounded">
               <center><label>Choco cake</label></center>
+            </a>
+            
+            <a href="#" id="demo_cereal" data-trigger="hover" data-content="Brekfast anytime! <br/>Price: PhP 60.00" title="Tasty Cereal" rel="popover" data-placement="top" class="col-md-4">
+              <img src="static/img/demo_cereal.jpg" style="height:130px" class="img-rounded">
+              <center><label>Tasty Cereals</label></center>
             </a>
             <a href="#" id="demo_coffee" data-trigger="hover" data-content="Warm coffee for the heart! <br/>Price: PhP 44.00" title="Warm Coffeee" rel="popover" data-placement="top" class="col-md-4">
               <img src="static/img/demo_coffee.jpg" style="height:130px" class="img-rounded">
               <center><label>Warm Coffee</label></center>
             </a>
-            <a href="#" id="demo_cereal" data-trigger="hover" data-content="Brekfast anytime! <br/>Price: PhP 60.00" title="Tasty Cereal" rel="popover" data-placement="top" class="col-md-4">
-              <img src="static/img/demo_cereal.jpg" style="height:130px" class="img-rounded">
-              <center><label>Tasty Cereals</label></center>
-          </a>
+            <a href="#" id="demo_oj" data-trigger="hover" data-content="Healthy and natural juice! <br/>Price: PhP 20.00" title="Orange Juice" rel="popover" data-placement="top" class="col-md-4">
+              <img src="static/img/demo_oj.jpg" style="height:130px" class="img-rounded">
+              <center><label>Orange Juice</label></center>
+            </a>
         </a>
       </div>
 
       <div class="col-md-6" >
         <div class="col-md-offset-1 col-md-11 well" >
-          <form>
-            <h3></h3>
+          
+            <center>
+              <a href="#" id="demo_survey" data-trigger="hover" data-content="This is a sample survey" rel="popover" data-placement="top">
+              <h3>Which soda do you prefer?</h3>
+              </a>
+              <br/>
+              <div>
+                <img id="img-pepsi" class="img-thumbnail wn-option" src="static/img/pepsi.png" alt="Pepsi Cola">
+                <img id="img-coke" class="img-thumbnail wn-option" src="static/img/coke.png" alt="Coca Cola">
+              </div>
 
-          </form>
+              <div id ="continue-fail" class="alert alert-danger hidden" style="margin-top:15px;width:70%;margin-bottom:0px">
+                <strong>Oops!</strong> Please answer the above survey
+              </div>
+
+              <button class="btn btn-primary" id="btn-continue" style="margin-top:15px">Continue browsing</button>
+
+              <form>    
+                <input type="hidden" name="soda">
+              </form>
+            </center>
+          
         </div>
       </div>
    </div>

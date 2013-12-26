@@ -1,0 +1,161 @@
+
+===========================================================
+Flashing OpenWRT to router
+===========================================================
+
+1. Download binary file
+   DSL Router: http://downloads.openwrt.org/attitude_adjustment/12.09/ar71xx/generic/openwrt-ar71xx-generic-tl-wr740n-v3-squashfs-factory.bin
+
+   Mobile Router: http://downloads.openwrt.org/attitude_adjustment/12.09/ar71xx/generic/openwrt-ar71xx-generic-tl-mr3020-v1-squashfs-factory.bin
+
+2. Login to the TP-Link page @ 192.168.1.1
+   Username: admin
+   Password: admin
+
+3. Flash the router with OpenWRT in the "Firmware upgrade" tab
+4. After flashing openwrt, set the new Username/Password for Openwrt
+5. Connect to the router thru Rj-45 (ethernet) cable, since WiFi is disabled by default
+   NOTE In DSL Router: Connect to the yellow ports (LAN port), not the blue WAN port (w/c should be connected to the modem/dsl)
+6. Setup the WiFi; after which, you may now connect thru the WiFi
+
+===========================================================
+Installing coova-chilli in OpenWRT
+===========================================================
+
+assuming that the router is fully setup and connected to the internet:
+
+ssh to the router from your terminal
+
+format: ssh root@<ip address of router>
+example ssh root@192.168.1.1
+
+then type the password of the router (i.e admin)
+
+one this thing is displayed:
+
+BusyBox v1.19.4 (2012-08-26 12:49:54 UTC) built-in shell (ash)
+Enter 'help' for a list of built-in commands.
+
+  _______                     ________        __
+ |       |.-----.-----.-----.|  |  |  |.----.|  |_
+ |   -   ||  _  |  -__|     ||  |  |  ||   _||   _|
+ |_______||   __|_____|__|__||________||__|  |____|
+          |__| W I R E L E S S   F R E E D O M
+ -----------------------------------------------------
+ ATTITUDE ADJUSTMENT (12.09-beta, r33312)
+ -----------------------------------------------------
+  * 1/4 oz Vodka      Pour all ingredients into mixing
+  * 1/4 oz Gin        tin with ice, strain into glass.
+  * 1/4 oz Amaretto
+  * 1/4 oz Triple sec
+  * 1/4 oz Peach schnapps
+  * 1/4 oz Sour mix
+  * 1 splash Cranberry juice
+ -----------------------------------------------------
+
+do a quick 'ping google.com' to verify that the router has indeed internet connection
+
+Now you may install coovachilli, type these commands (DSL ROUTER, for Mobile Router, see instructions below)
+
+> opkg update
+> opkg install coova-chilli
+> opkg install haserl
+
+===========================
+IGNORE till next chapter
+===========================
+Login to router web admin
+Go to System > Backup/Flash Firmware
+Then upload the 'openwrt-wifination-backup.tar.gz' file to 'Restore backup' form
+Reboot router
+
+After reboot, coova chilli is already installed and configured. Try going to facebook or google, and expect a WiFi Nation redirect page to be displayed in your browser. If no wifination page is displayed, something is wrong, perhaps try to disconnect and reconnect your wifi of your computer.
+
+NOTE: coovachilli only works on WiFi, so if you cannot connect to the internet, try connecting to the router thru LAN.
+
+=================================
+Configure coova-chilli
+=================================
+type these commands (note: words after the '#' are comments, ignore them)
+
+> cd /etc/chilli                 #cd to coova chilli directory
+> rm defaults                    #remove the current config file
+> curl http://pastebin.com/raw.php?i=M976CmfH      #download the config file
+> mv raw.php?i=M976CmfH defaults                   #rename the file
+> cd /etc/init.d/                                  #cd to init.d directory
+> curl http://pastebin.com/raw.php?i=C5TDnCxA      #download init.d file
+> mv http://pastebin.com/raw.php?i=C5TDnCxA chilli        #rename file
+> chmod a+x chilli                                 #add executable permissions
+> cd /etc/rc.d/
+> ln -s /etc/chilli S60chilli                      #create symbolic link
+
+Coova-chilli is now configured!!
+
+NOTE:
+Check if the WAN interface is 'eth1' and the WIFI interface is wlan0, to do this, use the command:
+> ifconfig
+
+Youll have something like this:
+
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          UP LOOPBACK RUNNING  MTU:16436  Metric:1
+          RX packets:986 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:986 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:74251 (72.5 KiB)  TX bytes:74251 (72.5 KiB)
+
+eth1      Link encap:Ethernet  HWaddr 64:66:B3:2C:12:B4  
+          UP BROADCAST MULTICAST  MTU:1500  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+          Interrupt:4 
+
+wlan0     Link encap:Ethernet  HWaddr 64:66:B3:2C:12:B4  
+          inet addr:192.168.0.1  Bcast:192.168.0.255  Mask:255.255.255.0
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:81439 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:144360 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:32 
+          RX bytes:7574676 (7.2 MiB)  TX bytes:179695078 (171.3 MiB)
+
+make sure eth1 and wlan0 are the interfaces listed, and not eth0 and/or wlan0-1,
+if the interface is not eth1 and wlan0, change the configuration file for coova-chilli
+
+===============================================
+Re-Configuring coova-chilli to other interfaces
+===============================================
+
+> cd /etc/chilli           
+> vi defaults           #open text editor
+
+you'll be directed to the VIM text editor, this is quite tricky
+
+1. move your cursor to the HS_WANIF/HS_LANIF line by pressing up/down key
+2. Press 'i' on the keyboard to go to insert mode.
+3. Edit the interface to the proper interface (remember the output of ifconfig)
+4. after editing, press 'ESC' key, to exit insert mode
+5. To save the alterations, type ':wq' to save and exit (NOTE: dont forget the colon, its important)
+
+===============
+Finishing touches
+===============
+
+Reboot router
+
+====================================================
+MOBILE ROUTER - 3g Installation
+====================================================
+
+> curl http://pastebin.com/raw.php?i=hY9k5LTn
+
+opkg update
+opkg install comgt
+opkg install kmod-usb-uhci*
+opkg install kmod-usb-serial
+opkg install kmod-usb-serial-option
+opkg install usb-modeswitch-data
+opkg install sdparm
+opkg install luci-proto-3g

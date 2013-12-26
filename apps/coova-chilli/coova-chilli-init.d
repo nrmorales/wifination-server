@@ -1,7 +1,4 @@
 #!/bin/sh /etc/rc.common
-# - init script for chilli -
-# Source: http://emandeguzman.blogspot.com/2012/11/openwrtcoovachilli.html
-
 START=60
 STOP=90
 
@@ -17,24 +14,14 @@ config_load hotspot > /etc/chilli/config
 
 start() {
  HS_DNS_DOMAIN=${HS_DNS_DOMAIN:-cap.coova.org}
- #HS_DNS1=${HS_DNS1:-$HS_UAMLISTEN}
- #HS_DNS2=${HS_DNS2:-$HS_NASIP}
- #HS_NASID=${HS_NASID:-$HS_NASMAC}
- #HS_MACAUTHMODE=${HS_MACAUTHMODE:-local}
  HS_USELOCALUSERS=${HS_USELOCALUSERS:-off}
  HS_PROXY_TYPE=${HS_PROXY_TYPE:-none}
- #HS_RADCONF_URL=${HS_RADCONF_URL:-http://ap.coova.org/config/tos.conf}
- #HS_CFRAME_URL=${HS_CFRAME_URL:-http://coova.org/cframe/default/}
- #HS_CFRAME_SZ=${HS_CFRAME_SZ:-100}
  HS_DEFSESSIONTIMEOUT=${HS_DEFSESSIONTIMEOUT:-0}
  HS_DEFIDLETIMEOUT=${HS_DEFIDLETIMEOUT:-0}
  HS_DEFINTERIMINTERVAL=${HS_DEFINTERIMINTERVAL:-300}
  HS_LAN_ACCESS=${HS_LAN_ACCESS:-deny}
- HS_CFRAME_POS=${HS_CFRAME_POS:-top}
- HS_PROVIDER=${HS_PROVIDER:-Coova}
- HS_PROVIDER_LINK=${HS_PROVIDER_LINK:-http://coova.org/}
- HS_LOC_NAME=${HS_LOC_NAME:-My HotSpot}
- HS_LOC_NETWORK=${HS_LOC_NETWORK:-Coova}
+ HS_LOC_NAME=${HS_LOC_NAME:-WiFiNation}
+ HS_LOC_NETWORK=${HS_LOC_NETWORK:-WiFiNation}
  HS_OPENIDAUTH=${HS_OPENIDAUTH:-off}
  HS_ANYIP=${HS_ANYIP:-off}
 

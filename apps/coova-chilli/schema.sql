@@ -139,7 +139,8 @@ CREATE TABLE radpostauth (
 CREATE TABLE users (
   user_id int(11) NOT NULL auto_increment,
   username varchar(64) NOT NULL,
-  PRIMARY KEY  (user_id)  
+  PRIMARY KEY  (user_id),
+  UNIQUE (username)
 );
 
 CREATE TABLE userdetails (
@@ -163,7 +164,7 @@ CREATE TABLE survey_options (
   survey_id int(11) NOT NULL,
   value varchar(140) NOT NULL,
   PRIMARY KEY (option_id),
-  FOREIGN KEY (survey_id) REFERENCES survey_questions(survey_id),
+  FOREIGN KEY (survey_id) REFERENCES survey_questions(survey_id)
 );
 
 CREATE TABLE survey_answers (
@@ -174,5 +175,5 @@ CREATE TABLE survey_answers (
   PRIMARY KEY (answer_id),
   FOREIGN KEY (user_id) REFERENCES users(user_id),
   FOREIGN KEY (survey_id) REFERENCES survey_questions(survey_id),
-  FOREIGN KEY (option_id) REFERENCES survey_options(option_id),
+  FOREIGN KEY (option_id) REFERENCES survey_options(option_id)
 );

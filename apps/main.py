@@ -171,7 +171,7 @@ def landingpage(mode=None):
 
    if result == 0:
       err = """Login must be performed through CoovaChilli daemon.
-      <br/><a href="demo-synetcom?res=notyet&uamip=192.168.182.1&uamport=3990&challenge=1f3590180f5ef93864dcfc0f5b17a15c&userurl=http%3a%2f%2fgoogle.com&nasid=nas01&mac=E0-B9-A5-C6-59-1F">Click here</a>"""
+      <br/><a href="demo?res=notyet&uamip=192.168.182.1&uamport=3990&challenge=1f3590180f5ef93864dcfc0f5b17a15c&userurl=http%3a%2f%2fgoogle.com&nasid=nas01&mac=E0-B9-A5-C6-59-1F">Click here</a>"""
       return error("WiFi Nation Login Failed",err)
 
    if result == 1:

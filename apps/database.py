@@ -7,33 +7,35 @@ def getdb():
                    db="radius") # name of the data base
 
 #adds new user to the radcheck table
-def addUser(username,password="wifination"):
-   db = getdb()
+def addUser(username):
+   print "Adding new User:",username
    sql = "INSERT INTO users (username) VALUES ('%s');"%(username)
-
+   db = getdb()
    cur = db.cursor()
    try:
       cur.execute(sql)
       db.commit()
-      print "ok"
+      print "addUser(): Success"
       return True
    except Exception, e:
       db.rollback()
-      print "failed"
-   finally:
-      db.close()
+      print "addUser(): Failed"
 
 #check if a username already exists in users table
 def userExists(username):
+   print "Checking if",username,"exists"
    db = getdb()
    sql = "SELECT COUNT(*) from users WHERE username = '%s'"%(username)
+   print "SQL:",sql
    cur = db.cursor()
    try:
       cur.execute(sql)
       if cur.fetchone()[0] > 0:
          return True
-   except:
-      print "Failed to query"
+      
+   except Exception, e:
+      print "userExists(): Failed to query"
+      print e
       return False
    finally:
       db.close()
@@ -46,34 +48,39 @@ def getUserId(username):
    sql = "SELECT user_id from users WHERE username = '%s'"%(username)
    try:
       cur.execute(sql)
-      uid = int(cur.fetchone()[0])
-      if uid: return uid
-   except:
-      print "Failed to query"
+      row = cur.fetchone()
+      print "USERID:>",row
+      if row: return int(row[0])
+   except Exception, e:
+      print "getUserId(): Failed to query"
+      print e
       return False
    finally:
       db.close()
 
 def addUserInfo(username, info):
-   user_id = getUserId(username)
-   if not user_id: return False
-
-   db = getdb()
-   cur = db.cursor()
-   print "adding",username
-   print "info",info
    def insertIt(key, val):
       try:
          print "inserting",key,":",val
          sql = "INSERT INTO userdetails (user_id, attribute, value) VALUES \
-            ('%s', '%s', '%s')"%(user_id, key, val)
+            (%d, '%s', '%s')"%(user_id, key, val)
+         print "SQL:",sql
          cur.execute(sql)
          db.commit()
-      except:
+      except Exception,e:
+         print "insertIt:",e
          db.rollback()
 
-   if not userExists(username): addUser(username)
+   print "Adding info for",username,"Info:",info
    
+   db = getdb()
+   cur = db.cursor()
+   user_id = getUserId(username)
+   if not user_id:
+      addUser(username)
+      user_id = getUserId(username)
+      if not user_id: return
+
    for key in info:
       if type(info[key]) in [str,unicode]:
          insertIt(key, info[key])

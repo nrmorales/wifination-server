@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block main_body %}
+   <div class="container">
+      <div class="row">
+         <div class="col-md-4 col-md-offset-4 well" style="margin-top:15%">
+            <form class="form-horizontal" role="form" method="post" action="admin-login">
+              <div class="form-group">
+                <label for="inputUsername" class="col-sm-3 control-label">Username</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="input-username" placeholder="Username" name="username">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="inputPassword" class="col-sm-3 control-label">Password</label>
+                <div class="col-sm-9">
+                  <input type="password" class="form-control" id="inputPassword" placeholder="Password" name="password">
+                </div>
+              </div>
+              {% if page_vars['fail'] %}
+               <div class="alert alert-danger">
+                  <center>Invalid username and/or password</center>
+               </div>
+               {% endif %}
+              <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-10">
+                  <button type="submit" class="btn btn-primary">Admin Login</button>
+                </div>
+              </div>
+            </form>
+         </div>
+      </div>
+   </div>
+{% endblock %}

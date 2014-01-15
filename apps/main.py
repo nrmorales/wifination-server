@@ -1,9 +1,10 @@
 from flask import Flask
 from flask import render_template as render
-from flask import request, make_response, redirect, url_for
+from flask import request, make_response, url_for, redirect
 from flask_mobility import Mobility
 
 import hashlib, urllib, database
+from admin import *
 
 app = Flask(__name__)
 app.debug = True
@@ -162,7 +163,7 @@ def landingpage(mode=None):
 
       logonUrl += "&userurl="+urllib.quote_plus(request_data['userurl']);
       print "LoginURL:",logonUrl
-      return redirect(logonUrl,mode)
+      return wnredirect(logonUrl,mode)
 
    #another part of the script
    result = getResult(request_data)
@@ -209,7 +210,7 @@ def landingpage(mode=None):
       if app.debug: print "Logged out from WiFi Nation"
       return render("simple.html",headline="Logged out from WiFi Nation",mesg="")
 
-def redirect(redirect_url,mode):
+def wnredirect(redirect_url,mode):
    if app.debug: print "Redirecting to",redirect_url
    if mode == "demo": 
       return render("surveypage-demo.html", redirect_url=redirect_url, page_vars={}, ismobile=request.MOBILE)
@@ -246,7 +247,25 @@ def getResult(request_data):
    elif request_data['res'] == "popup3":  return 13
    return 0
 
+@app.route('/admin-login',methods=['GET','POST'])
+def login():
+   if request.method == "POST":
+      if request.form["username"] == "admin" and request.form["password"] == "wifination":
+         response = redirect(url_for('showAdmin'))
+         response.set_cookie('jklol',value='keox')
+         return response
+      else:
+         return render("admin-login.html",page_vars={'fail':True})
+   else:
+      return render("admin-login.html",page_vars={})
+
+@app.route('/admin-dashboard')
+def showAdmin():
+   valid = request.cookies.get('jklol')
+   if valid == 'keox':
+      return render("admin-dashboard.html",page_vars={})
+   else:
+      return redirect(url_for('login'))
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=80)
-
-#http://localhost:5000/authenticate?res=notyet&uamip=192.168.182.1&uamport=3990&challenge=1f3590180f5ef93864dcfc0f5b17a15c&userurl=http%3a%2f%2fgeoip.ubuntu.com%2flookup&nasid=nas01&mac=E0-B9-A5-C6-59-1F

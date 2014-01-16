@@ -17,6 +17,10 @@ uamsecret = "uamsecret"
 def login3():
    return render("landingpage.html",page_vars={})
 
+@app.route("/test-hub")
+def login33():
+   return render("surveypage-coffeehub.html",page_vars={})
+
 @app.route("/test-new")
 def login2():
    return render("landingpage-new.html",page_vars={})
@@ -106,6 +110,10 @@ def showDemoManila():
 def showDemoSynetcom():
    return landingpage(mode="synetcom")
 
+@app.route('/coffeehub',methods=['GET','POST'])
+def showCoffeeHub():
+   return landingpage(mode="coffeehub")
+
 @app.route('/authenticate', methods=['GET','POST'])
 @app.route('/wifination/authenticate', methods=['GET','POST'])
 def landingpage(mode=None):
@@ -192,6 +200,8 @@ def landingpage(mode=None):
          return render("landingpage-new.html",page_vars=request_data,loginpath="/wifination/demo")
       elif mode == "manila":
          return render("landingpage-manila.html",page_vars=request_data,loginpath="/wifination/demo-manila")
+      elif mode == "coffeehub":
+         return render("landingpage-new.html",page_vars=request_data,loginpath="/wifination/coffeehub")
       elif mode == "synetcom":
          return render("landingpage-new.html",page_vars=request_data,loginpath="/wifination/demo-synetcom")
       else:
@@ -221,7 +231,8 @@ def wnredirect(redirect_url,mode):
          return render("surveypage-manila.html", redirect_url=redirect_url, page_vars={})
    elif mode == "synetcom":
       return render("surveypage-synetcom.html", redirect_url=redirect_url, page_vars={})
-   
+   elif mode == "coffeehub":
+         return render("surveypage-coffeehub.html",redirect_url=redirect_url, page_vars={})
    if request.MOBILE:
       return render("surveypage-mobile.html", redirect_url=redirect_url, page_vars={})
    else:

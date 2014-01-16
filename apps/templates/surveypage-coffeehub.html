@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block post_scripts %}
+<script>
+   $("button#btn-continue").click(function(){
+    if ($('input[name="soda"]').val() !== ""){
+      window.location.replace("{{ redirect_url | safe}}");
+    }else{
+      $("#continue-fail").css('visibility','visible').fadeIn().removeClass('hidden');
+    }
+   });
+
+  $('#img-chblended').click(function(){
+    $('#img-chiced').attr('class','img-thumbnail wn-option');
+    $('#img-chhot').attr('class','img-thumbnail wn-option');
+    $('#img-chblended').attr('class','img-thumbnail-selected wn-option');
+    $('input[name="soda"]').val('chblended');
+  });
+  $('#img-chiced').click(function(){
+    $('#img-chblended').attr('class','img-thumbnail wn-option');
+    $('#img-chhot').attr('class','img-thumbnail wn-option');
+    $('#img-chiced').attr('class','img-thumbnail-selected wn-option');
+    $('input[name="soda"]').val('chiced');
+  });
+  $('#img-chhot').click(function(){
+    $('#img-chblended').attr('class','img-thumbnail wn-option');
+    $('#img-chiced').attr('class','img-thumbnail wn-option');
+    $('#img-chhot').attr('class','img-thumbnail-selected wn-option');
+    $('input[name="soda"]').val('chhot');
+  });
+</script>
+{% endblock %}
+
+{% block css %}
+<style>
+body {
+   background-color: #ECECEC;
+}
+#imgs-div{
+  background-image: url('static/img/shit.png');
+  background-repeat: no-repeat;
+  background-size: 72%;
+}
+</style>
+{% endblock %}
+
+{% block main_body %}
+<nav class="navbar navbar-default" role="navigation">
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="navbar-header">
+    <a class="navbar-brand" href="#">
+      <img src="static/img/fat_logo.png" style="height:19px">      
+      CoffeHub <small>is powered by WiFi Nation</small></a>
+  </div>
+</nav>
+<div class="container" style="margin-top:1%" id="fullHeight">
+   <div class="row" >
+      <div class="col-md-6 well">
+        <center>
+          <h2>Welcome to CoffeeHub!</h2>
+          <img src="static/img/coffeehub.png" alt="CoffeeHub logo">
+        </center>
+      </div>
+
+      <div class="col-md-6" >
+        <div class="col-md-offset-2 col-md-9 well" >
+            <center>
+              <h3>Which drink do you prefer?</h3>
+              <div style="font-size:12px;">select one to continue browsing</div>
+              <br/>
+              <div class="container">
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="row">
+                    <img id="img-chblended" class="row img-thumbnail wn-option" src="static/img/ch_blended.png" alt="Blended">
+                    </div>  
+                    <div class="row">Blended Coffee</div>
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="row">
+                      <img id="img-chiced" class="img-thumbnail wn-option" src="static/img/ch_iced.png" alt="Iced">
+                    </div>  
+                    <div class="row">Iced Coffee</div>
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="row">
+                      <img id="img-chhot" class="img-thumbnail wn-option" src="static/img/ch_hot.png" alt="Hot">
+                      </div>  
+                    <div class="row">Hot Coffee</div>
+                  </div>
+              </div>
+
+              <div id ="continue-fail" class="alert alert-danger hidden" style="margin-top:15px;width:70%;margin-bottom:0px">
+                <strong>Oops!</strong> Please answer the above survey
+              </div>
+
+              <button class="btn btn-primary" id="btn-continue" style="margin-top:15px">Continue browsing</button>
+
+              <form>    
+                <input type="hidden" name="soda">
+              </form>
+            </center>
+        </div>
+      </div>
+   </div>
+</div>
+{% endblock %}

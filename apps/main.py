@@ -10,6 +10,17 @@ app = Flask(__name__)
 app.debug = True
 Mobility(app)
 
+NOT_CHILLI = 0
+SUCCESS_ = 1
+FAILED_ = 2
+LOGOFF_ = 3
+ALREADY_ = 5
+NOTYET_ = 5
+WISPR_ = 6
+POPUP1_ = 11
+POPUP2_ = 12
+POPUP3_ = 13
+
 #constant variables
 uamsecret = "uamsecret"
 
@@ -178,23 +189,26 @@ def landingpage(mode=None):
 
    if app.debug: print "Result:",result
 
-   if result == 0:
+   if result == NOT_CHILLI:
       err = """Login must be performed through CoovaChilli daemon.
       <br/><a href="demo?res=notyet&uamip=192.168.182.1&uamport=3990&challenge=1f3590180f5ef93864dcfc0f5b17a15c&userurl=http%3a%2f%2fgoogle.com&nasid=nas01&mac=E0-B9-A5-C6-59-1F">Click here</a>"""
       return error("WiFi Nation Login Failed",err)
 
-   if result == 1:
+   if result == SUCCESS_:
       if app.debug: print "Logged in to WiFi Nation Success!"
-      return render("simple-redirect.html",redirect_url=request_data['userurl'])
+      redirect_to = redirect_url=request_data['userurl']
+      if "clients3.google.com" in redirect_to:
+         redirect_to = urllib.quote_plus("http://google.com")
+      return render("simple-redirect.html",redirect_url=redirect_to)
 
-   if result == 6:
+   if result == WISPR_:
       pass
 
-   if result == 2:
+   if result == FAILED_:
       if app.debug: print "WiFi Nation Login Failed!", request_data['reply']
       return render("landingpage.html",page_vars = {'error_msg':"WiFi Nation Login Failed"},loginpath="/wifination/authenticate")
 
-   if result == 5:
+   if result == NOTYET_:
       if app.debug: print "Not yet logged in"
       if mode == "demo":
          return render("landingpage-new.html",page_vars=request_data,loginpath="/wifination/demo")
@@ -207,16 +221,16 @@ def landingpage(mode=None):
       else:
          return render("landingpage-new.html",page_vars=request_data,loginpath="/wifination/authenticate")
 
-   if result == 4 or result == 12:
+   if result == ALREADY_ or result == POPUP2_:
       logoutUrl = """<a href="http://%(uamip)s:%(uamport)s/logoff">Logout</a>"""%(request_data)
       if app.debug: print "Logout URL:",logoutUrl
       return render("simple-redirect.html",headline="Logged in to WiFi Nation!",mesg=logoutUrl,redirect_url=request_data['userurl'])
 
-   if result == 11:
+   if result == POPUP1_:
       if app.debug: print "Logging in to WiFi Nation"
       return render("simple.html",headline="Logging in to WiFi Nation",mesg="Please wait...")
 
-   if result == 13:
+   if result == POPUP3_:
       if app.debug: print "Logged out from WiFi Nation"
       return render("simple.html",headline="Logged out from WiFi Nation",mesg="")
 
@@ -247,16 +261,16 @@ def error(headline, mesg):
 #returns the appropriate result code depending on the request_data['res']
 def getResult(request_data):
    if "res" not in request_data: return 0
-   elif request_data['res'] == "success": return 1
-   elif request_data['res'] == "failed":  return 2
-   elif request_data['res'] == "logoff":  return 3
-   elif request_data['res'] == "already": return 4
-   elif request_data['res'] == "notyet":  return 5
-   elif request_data['res'] == "wispr":   return 6
-   elif request_data['res'] == "popup1":  return 11
-   elif request_data['res'] == "popup2":  return 12
-   elif request_data['res'] == "popup3":  return 13
-   return 0
+   elif request_data['res'] == "success": return SUCCESS_
+   elif request_data['res'] == "failed":  return FAILED_
+   elif request_data['res'] == "logoff":  return LOGOFF_
+   elif request_data['res'] == "already": return ALREADY_
+   elif request_data['res'] == "notyet":  return NOTYET_
+   elif request_data['res'] == "wispr":   return WISPR_
+   elif request_data['res'] == "popup1":  return POPUP1_
+   elif request_data['res'] == "popup2":  return POPUP2_
+   elif request_data['res'] == "popup3":  return POPUP3_
+   return NOT_CHILLI
 
 @app.route('/admin-login',methods=['GET','POST'])
 def login():

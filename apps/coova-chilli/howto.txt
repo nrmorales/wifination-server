@@ -153,7 +153,7 @@ MOBILE ROUTER - 3g Installation
 
 opkg update
 opkg install comgt
-opkg install kmod-usb-uhci*
+opkg install kmod-usb-uhci
 opkg install kmod-usb-serial
 opkg install kmod-usb-serial-option
 opkg install usb-modeswitch-data
